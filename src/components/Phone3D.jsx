@@ -1,3 +1,5 @@
+import './Phone3D.css'
+
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 

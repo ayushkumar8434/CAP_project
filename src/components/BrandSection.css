@@ -1,0 +1,87 @@
+.brand-section {
+  width: 100%;
+  padding: 90px 0;
+  background: #f7faf8;
+  overflow: hidden;
+}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.brand-label {
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.brand-title {
+  color: #0b3d2e;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.brand-description {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.brand-slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.brand-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: max-content;
+  animation: brand-scroll 30s linear infinite;
+}
+
+.brand-item {
+  width: 170px;
+  height: 190px;
+  flex-shrink: 0;
+  padding: 20px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-image {
+  width: 100px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  background: #f3f4f6;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.brand-name {
+  margin-top: 14px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+@keyframes brand-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 12px));
+  }
+}

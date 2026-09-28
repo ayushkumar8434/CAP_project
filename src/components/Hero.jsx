@@ -1,3 +1,4 @@
+import './Hero.css'
 import Phone3D from './Phone3D'
 
 function Hero() {
