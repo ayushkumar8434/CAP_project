@@ -1,5 +1,6 @@
 import './Hero.css'
 import Phone3D from './Phone3D'
+import { Link } from 'react-router-dom'
 
 function Hero() {
   return (
@@ -26,13 +27,13 @@ function Hero() {
 
           <div className="hero-buttons">
 
-            <div className="hero-button primary-button">
+            <Link to="/" className="hero-button primary-button">
               Browse Phones
-            </div>
+            </Link>
 
-            <div className="hero-button secondary-button">
+            <Link to="/sell" className="hero-button secondary-button">
               Sell Your Phone
-            </div>
+            </Link>
 
           </div>
 
