@@ -1,0 +1,131 @@
+.drops-section {
+  width: 100%;
+  padding: 90px 60px;
+  background: #f7faf8;
+}
+
+.drops-header {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+}
+
+.drops-label {
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.drops-title {
+  color: #0b3d2e;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+
+/* Phone Grid */
+
+.drops-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+.drop-phone {
+  padding: 14px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  transition: 0.2s;
+}
+
+.drop-phone:hover {
+  transform: translateY(-4px);
+  border-color: #bbf7d0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Small Phone Image */
+
+.drop-phone-image {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb;
+  border-radius: 10px;
+}
+
+.drop-phone-image img {
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+}
+
+
+/* Price */
+
+.drop-phone-price {
+  margin-top: 14px;
+  color: #0b3d2e;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+
+/* Button */
+
+.drop-phone-button {
+  margin-top: 10px;
+  padding: 9px;
+  background: #16a34a;
+  color: white;
+  text-align: center;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.drop-phone-button:hover {
+  background: #0b3d2e;
+}
+
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+  .drops-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 850px) {
+  .drops-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .drops-section {
+    padding: 70px 20px;
+  }
+
+  .drops-title {
+    font-size: 32px;
+  }
+
+  .drops-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .drop-phone-image {
+    height: 130px;
+  }
+}

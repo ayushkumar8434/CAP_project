@@ -7,6 +7,8 @@ import WhyNewPhone from './components/WhyNewPhone'
 import BrandSection from './components/BrandSection'
 import PopularPhones from './components/PopularPhones'
 import SellPhone from './pages/sell/sellphone'
+import FindPerfectPhone from './components/FindPerfectPhone'
+import TodaysDrops from './components/TodaysDrops'
 
 
 function HomePage() {
@@ -16,6 +18,8 @@ function HomePage() {
       <Phone3D />
       <BrandSection />
       <PopularPhones />
+      <FindPerfectPhone />
+      <TodaysDrops />
       <WhyNewPhone />
     </>
   )
