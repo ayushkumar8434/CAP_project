@@ -9,6 +9,9 @@ import PopularPhones from './components/PopularPhones'
 import SellPhone from './pages/sell/sellphone'
 import FindPerfectPhone from './components/FindPerfectPhone'
 import TodaysDrops from './components/TodaysDrops'
+import YourPhoneValue from './components/YourPhoneValue'
+import NewPhoneVerified from './components/NewPhoneVerified'
+import ShopByNeed from './components/ShopByNeed'
 
 
 function HomePage() {
@@ -20,6 +23,9 @@ function HomePage() {
       <PopularPhones />
       <FindPerfectPhone />
       <TodaysDrops />
+      <YourPhoneValue />
+      <NewPhoneVerified />
+      <ShopByNeed />
       <WhyNewPhone />
     </>
   )

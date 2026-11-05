@@ -1,0 +1,142 @@
+.verified-section {
+  width: 100%;
+  padding: 88px 60px 96px;
+  background: #fff;
+  color: #111827;
+}
+
+.verified-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.verified-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  padding-bottom: 48px;
+}
+
+.verified-eyebrow {
+  margin-bottom: 18px;
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.verified-title {
+  max-width: 700px;
+  margin: 0;
+  color: #0b3d2e;
+  font-size: clamp(36px, 4.5vw, 58px);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1.08;
+}
+
+.verified-intro {
+  max-width: 300px;
+  padding-bottom: 5px;
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.verified-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid #dfe7e2;
+  border-bottom: 1px solid #dfe7e2;
+}
+
+.verified-principle {
+  min-height: 196px;
+  padding: 26px 32px 28px 0;
+}
+
+.verified-principle + .verified-principle {
+  padding-left: 32px;
+  border-left: 1px solid #dfe7e2;
+}
+
+.verified-number {
+  display: block;
+  margin-bottom: 24px;
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.verified-principle-title {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+
+.verified-principle-description {
+  max-width: 310px;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+  .verified-section {
+    padding: 72px 28px 80px;
+  }
+
+  .verified-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+    padding-bottom: 36px;
+  }
+
+  .verified-intro {
+    max-width: 440px;
+  }
+
+  .verified-principle {
+    padding-right: 20px;
+  }
+
+  .verified-principle + .verified-principle {
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .verified-section {
+    padding: 64px 20px 68px;
+  }
+
+  .verified-title {
+    font-size: clamp(34px, 10vw, 44px);
+    letter-spacing: -1.3px;
+  }
+
+  .verified-principles {
+    grid-template-columns: 1fr;
+  }
+
+  .verified-principle {
+    min-height: 0;
+    padding: 22px 0 24px;
+  }
+
+  .verified-principle + .verified-principle {
+    padding: 22px 0 24px;
+    border-top: 1px solid #dfe7e2;
+    border-left: 0;
+  }
+
+  .verified-number {
+    margin-bottom: 12px;
+  }
+}
