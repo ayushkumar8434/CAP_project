@@ -1,203 +1,109 @@
 .popular-section {
   width: 100%;
-  padding: 90px 60px;
-  background: white;
+  padding: 54px clamp(20px, 4.2vw, 60px);
+  background: #fff;
 }
 
-
-/* HEADER */
+.popular-header,
+.popular-availability {
+  width: min(1200px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
 
 .popular-header {
-  max-width: 1200px;
-  margin: 0 auto 50px;
+  margin-bottom: 24px;
 }
 
 .popular-label {
+  margin-bottom: 10px;
   color: #16a34a;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  margin-bottom: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
 }
 
 .popular-title {
+  margin: 0;
   color: #0b3d2e;
-  font-size: 42px;
+  font-size: clamp(30px, 4vw, 40px);
   font-weight: 700;
+  letter-spacing: -1.2px;
+  line-height: 1.12;
 }
 
 .popular-description {
-  margin-top: 12px;
+  margin-top: 8px;
   color: #6b7280;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-
-/* PHONE GRID */
-
-.popular-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-
-  gap: 24px;
-}
-
-
-/* PHONE CARD */
-
-.phone-card {
-  padding: 18px;
-
-  background: #f7faf8;
-
-  border: 1px solid #e5e7eb;
-
-  border-radius: 16px;
-
-  transition: 0.3s;
-}
-
-.phone-card:hover {
-  transform: translateY(-6px);
-
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-}
-
-
-/* PHONE IMAGE */
-
-.phone-image {
-  width: 100%;
-  height: 280px;
-
+.popular-availability {
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  background: white;
-
-  border-radius: 12px;
-
-  overflow: hidden;
+  gap: 18px;
+  padding: 24px clamp(20px, 3vw, 34px);
+  border: 1px solid #e4ede7;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at 100% 0, rgba(220, 252, 231, 0.6), transparent 45%),
+    #f7faf8;
 }
 
-
-/* ACTUAL PHONE IMAGE */
-
-.phone-image img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;
-
-  display: block;
+.availability-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border: 1px solid #ccebd6;
+  border-radius: 50%;
+  background: #fff;
 }
 
-
-/* PHONE INFORMATION */
-
-.phone-brand {
-  margin-top: 18px;
-
-  color: #6b7280;
-
-  font-size: 13px;
-}
-
-.phone-name {
-  margin-top: 5px;
-
-  color: #111827;
-
-  font-size: 20px;
-
-  font-weight: 600;
-}
-
-.phone-rating {
-  margin-top: 10px;
-
-  color: #16a34a;
-
-  font-size: 14px;
-}
-
-.phone-price {
-  margin-top: 14px;
-
-  color: #0b3d2e;
-
-  font-size: 22px;
-
-  font-weight: 700;
-}
-
-.phone-old-price {
-  margin-top: 4px;
-
-  color: #9ca3af;
-
-  font-size: 14px;
-
-  text-decoration: line-through;
-}
-
-
-/* BUTTON */
-
-.phone-button {
-  margin-top: 18px;
-
-  padding: 12px;
-
+.availability-mark span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
   background: #16a34a;
-
-  color: white;
-
-  text-align: center;
-
-  border-radius: 8px;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.2s;
+  box-shadow: 0 0 0 5px #dcfce7;
 }
 
-.phone-button:hover {
-  background: #0b3d2e;
+.popular-availability h3 {
+  color: #0b3d2e;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
-
-/* RESPONSIVE */
-
-@media (max-width: 1000px) {
-
-  .popular-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
+.popular-availability p {
+  max-width: 650px;
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
 }
-
 
 @media (max-width: 600px) {
-
   .popular-section {
-    padding: 60px 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 
-  .popular-title {
-    font-size: 34px;
+  .popular-header {
+    margin-bottom: 19px;
   }
 
-  .popular-grid {
-    grid-template-columns: 1fr;
+  .popular-availability {
+    align-items: flex-start;
+    gap: 14px;
+    padding: 19px 16px;
   }
 
+  .availability-mark {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
 }

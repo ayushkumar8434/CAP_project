@@ -1,0 +1,138 @@
+.final-cta-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: var(--np-section-space-wide) clamp(20px, 4.2vw, 60px) 64px;
+  background: #0b3d2e;
+  color: #fff;
+}
+
+.final-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.final-cta-eyebrow {
+  color: #86efac;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.8px;
+}
+
+.final-cta-title {
+  margin: 23px 0 0;
+  color: #fff;
+  font-size: clamp(54px, 8vw, 94px);
+  font-weight: 800;
+  letter-spacing: -5px;
+  line-height: 0.9;
+}
+
+.final-cta-title span {
+  color: #86efac;
+}
+
+.final-cta-description {
+  max-width: 480px;
+  margin: 22px auto 0;
+  color: #d1e7dc;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.final-cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.final-cta-link {
+  min-height: 52px;
+  gap: 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.final-cta-primary {
+  border-color: #41be6d;
+}
+
+.final-cta-primary:hover {
+  border-color: #dcfce7;
+}
+
+.final-cta-secondary {
+  border-color: rgba(220, 252, 231, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff !important;
+}
+
+.final-cta-secondary:hover {
+  border-color: #dcfce7;
+  background: rgba(220, 252, 231, 0.1);
+}
+
+.final-cta-secondary:active {
+  color: #0b3d2e !important;
+}
+
+.final-cta-mark {
+  position: absolute;
+  top: -34px;
+  right: 4%;
+  color: rgba(134, 239, 172, 0.16);
+  font-size: clamp(110px, 20vw, 250px);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 800px) {
+  .final-cta-section {
+    padding: 52px 28px 56px;
+  }
+
+  .final-cta-title {
+    letter-spacing: -3.5px;
+  }
+}
+
+@media (max-width: 600px) {
+  .final-cta-section {
+    padding: 42px 20px 46px;
+  }
+
+  .final-cta-title {
+    font-size: clamp(52px, 15vw, 72px);
+    letter-spacing: -3px;
+  }
+
+  .final-cta-description {
+    max-width: 390px;
+    font-size: 14px;
+  }
+
+  .final-cta-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 360px;
+    margin: 26px auto 0;
+  }
+
+  .final-cta-link {
+    width: 100%;
+  }
+
+  .final-cta-mark {
+    top: 0;
+    right: -25px;
+    font-size: 130px;
+  }
+}

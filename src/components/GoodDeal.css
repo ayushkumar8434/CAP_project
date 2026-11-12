@@ -1,0 +1,336 @@
+.good-deal-section {
+  width: 100%;
+  padding: var(--np-section-space-wide) clamp(20px, 4.2vw, 60px) 64px;
+  background: #dcfce7;
+  color: #111827;
+}
+
+.good-deal-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.good-deal-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 28px;
+}
+
+.good-deal-eyebrow,
+.good-deal-field-label,
+.good-deal-range-label {
+  color: #16a34a;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.6px;
+}
+
+.good-deal-eyebrow {
+  margin-bottom: 15px;
+}
+
+.good-deal-title {
+  margin: 0;
+  color: #0b3d2e;
+  font-size: clamp(42px, 5.3vw, 66px);
+  font-weight: 750;
+  letter-spacing: -3.2px;
+  line-height: 0.96;
+}
+
+.good-deal-title span {
+  color: #16a34a;
+}
+
+.good-deal-intro {
+  max-width: 330px;
+  padding-bottom: 5px;
+  color: #456457;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.good-deal-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(270px, 0.8fr);
+  overflow: hidden;
+  border: 1px solid rgba(11, 61, 46, 0.12);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(11, 61, 46, 0.08);
+}
+
+.good-deal-form {
+  min-width: 0;
+  padding: 30px;
+}
+
+.good-deal-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 16px;
+}
+
+.good-deal-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.good-deal-field-label {
+  color: #6b7280;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+}
+
+.good-deal-field select,
+.good-deal-price-input {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid #dfe7e2;
+  border-radius: 10px;
+  background: #fff;
+  color: #0b3d2e;
+  font: inherit;
+  font-size: 14px;
+}
+
+.good-deal-field select {
+  padding: 0 13px;
+}
+
+.good-deal-field select:disabled {
+  background: #f7faf8;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.good-deal-price-input {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 13px;
+  color: #16a34a;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.good-deal-price-input input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #0b3d2e;
+  font: inherit;
+  font-size: 14px;
+}
+
+.good-deal-field select:focus-visible,
+.good-deal-price-input:focus-within {
+  outline: 3px solid rgba(22, 163, 74, 0.22);
+  border-color: #16a34a;
+}
+
+.good-deal-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.good-deal-form-footer p {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.good-deal-submit {
+  border-radius: 999px;
+}
+
+.good-deal-result {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px;
+  background: #0b3d2e;
+  color: #fff;
+}
+
+.good-deal-result.is-good {
+  background: #0b3d2e;
+}
+
+.good-deal-result.is-fair {
+  background: #174e3c;
+}
+
+.good-deal-result.is-high {
+  background: #243b34;
+}
+
+.good-deal-result-kicker {
+  color: #bbf7d0;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.4px;
+}
+
+.good-deal-result-kicker span {
+  padding: 0 4px;
+  color: #86efac;
+}
+
+.good-deal-result-label {
+  margin: 12px 0 28px;
+  color: #86efac;
+  font-size: clamp(30px, 3.4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -1.6px;
+  line-height: 1;
+}
+
+.good-deal-range-label {
+  color: #bbf7d0;
+  font-size: 9px;
+}
+
+.good-deal-range {
+  margin-top: 9px;
+  color: #fff;
+  font-size: clamp(20px, 2.2vw, 27px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  white-space: nowrap;
+}
+
+.good-deal-explanation {
+  margin-top: 16px;
+  color: #d1e7dc;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.good-deal-empty {
+  max-width: 280px;
+}
+
+.good-deal-spark {
+  display: block;
+  margin-bottom: 20px;
+  color: #86efac;
+  font-size: 28px;
+}
+
+.good-deal-empty-title {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
+}
+
+.good-deal-empty-copy {
+  margin-top: 10px;
+  color: #d1e7dc;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.good-deal-disclaimer {
+  grid-column: 1 / -1;
+  padding: 16px 24px;
+  border-top: 1px solid #e8eee9;
+  background: #fff;
+  color: #6b7280;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .good-deal-section {
+    padding: var(--np-section-space-compact) 28px 52px;
+  }
+
+  .good-deal-card {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 0.85fr);
+  }
+
+  .good-deal-form,
+  .good-deal-result {
+    padding: 24px;
+  }
+
+  .good-deal-form-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .good-deal-section {
+    padding: var(--np-section-space-mobile) 20px 44px;
+  }
+
+  .good-deal-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .good-deal-title {
+    font-size: clamp(42px, 12vw, 56px);
+    letter-spacing: -2.4px;
+  }
+
+  .good-deal-intro {
+    max-width: 390px;
+    font-size: 14px;
+  }
+
+  .good-deal-card {
+    grid-template-columns: 1fr;
+    border-radius: 17px;
+  }
+
+  .good-deal-form {
+    padding: 19px;
+  }
+
+  .good-deal-fields {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .good-deal-form-footer {
+    align-items: stretch;
+    margin-top: 23px;
+  }
+
+  .good-deal-submit {
+    width: 100%;
+  }
+
+  .good-deal-result {
+    min-height: 220px;
+    padding: 22px 19px;
+  }
+
+  .good-deal-result-label {
+    margin-bottom: 24px;
+  }
+
+  .good-deal-range {
+    font-size: clamp(20px, 6vw, 25px);
+  }
+
+  .good-deal-disclaimer {
+    padding: 12px 18px;
+  }
+}

@@ -3,13 +3,13 @@ import './NewPhoneVerified.css'
 const trustPrinciples = [
   {
     number: '01',
-    title: 'Transparent Phone Condition',
+    title: 'Clear Condition Details',
     description: "Understand the phone's condition clearly before you decide.",
   },
   {
     number: '02',
-    title: 'Honest Pricing',
-    description: 'See clear prices without confusing hidden charges.',
+    title: 'Upfront Price Information',
+    description: 'Review the stated price and included items before deciding.',
   },
   {
     number: '03',
@@ -24,13 +24,13 @@ function NewPhoneVerified() {
       <div className="verified-inner">
         <div className="verified-header">
           <div>
-            <p className="verified-eyebrow">NEWPHONE VERIFIED</p>
+            <p className="verified-eyebrow">BUY WITH CLARITY</p>
             <h2 className="verified-title" id="verified-heading">
-              A smarter way to buy pre-owned phones.
+              Know what to look for in a pre-owned phone.
             </h2>
           </div>
           <p className="verified-intro">
-            The details that matter, made easier to understand before you buy.
+            Useful details to consider before choosing a pre-owned device.
           </p>
         </div>
 

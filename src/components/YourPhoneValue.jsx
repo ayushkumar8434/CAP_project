@@ -28,11 +28,11 @@ function YourPhoneValue() {
 
             <p>
               That phone sitting in your drawer?
-              Yeah, it still has value. Sell it,
-              get paid and make room for your next upgrade.
+              It may still have value. Tell us about it and
+              make room for your next upgrade.
             </p>
 
-            <Link to="/sell" className="value-button">
+            <Link to="/sell" className="value-button np-button np-button--primary">
               LET'S SELL <span>↗</span>
             </Link>
 

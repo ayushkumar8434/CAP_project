@@ -142,16 +142,9 @@ const recommendationsByCategory = {
 function RecommendationVisual({ index }) {
   return (
     <div className="need-product-visual" aria-hidden="true">
-      <span className="need-product-index">
-        {String(index).padStart(2, '0')}
-      </span>
-      <span className="need-phone-placeholder">
-        <span className="need-phone-speaker" />
-        <span className="need-phone-screen">
-          <span className="need-phone-screen-mark" />
-        </span>
-        <span className="need-phone-home-mark" />
-      </span>
+      <span className="need-product-index">{String(index).padStart(2, '0')}</span>
+      <span className="need-product-visual-label">A PHONE TO EXPLORE</span>
+      <span className="need-product-visual-mark" />
     </div>
   )
 }
@@ -190,7 +183,7 @@ function ShopByNeed() {
           <div className="need-categories" aria-label="Choose a phone category">
             {categories.map(({ id, number, name, description }) => (
               <button
-                className={`need-category${selectedCategory === id ? ' is-selected' : ''}`}
+                className={`need-category np-button np-button--secondary${selectedCategory === id ? ' is-selected' : ''}`}
                 type="button"
                 key={id}
                 aria-pressed={selectedCategory === id}
@@ -272,8 +265,8 @@ function ShopByNeed() {
         </div>
 
         <p className="need-disclaimer">
-          Curated recommendations to help you find your match. Actual listings
-          and availability may vary.
+          Sample recommendations for inspiration only; these are not live
+          listings and availability is not confirmed.
         </p>
       </div>
     </section>

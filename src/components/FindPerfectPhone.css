@@ -1,6 +1,6 @@
 .find-section {
   width: 100%;
-  padding: 100px 60px;
+  padding: var(--np-section-space-wide) clamp(20px, 4.2vw, 60px);
   background: #f7faf8;
 }
 
@@ -9,7 +9,7 @@
 
 .find-header {
   max-width: 900px;
-  margin: 0 auto 55px;
+  margin: 0 auto 28px;
   text-align: center;
 }
 
@@ -18,12 +18,12 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 2px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .find-title {
   color: #0b3d2e;
-  font-size: 42px;
+  font-size: clamp(30px, 4vw, 40px);
   font-weight: 700;
   line-height: 1.15;
 }
@@ -33,7 +33,7 @@
 }
 
 .find-description {
-  margin-top: 14px;
+  margin-top: 10px;
   color: #6b7280;
   font-size: 16px;
 }
@@ -44,12 +44,12 @@
 .find-container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 40px;
+  padding: clamp(20px, 2.8vw, 30px);
 
   background: white;
 
   border: 1px solid #e5e7eb;
-  border-radius: 20px;
+  border-radius: 18px;
 }
 
 
@@ -59,7 +59,7 @@
   color: #111827;
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 
 
@@ -68,30 +68,31 @@
 .find-options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .find-option {
-  padding: 24px 18px;
+  padding: 16px 14px;
 
-  background: #f7faf8;
+  background: linear-gradient(145deg, #fff, #f7faf8);
 
-  border: 2px solid #e5e7eb;
+  border: 1px solid #e1e9e3;
   border-radius: 14px;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-}
-
-.find-option:hover {
-  border-color: #16a34a;
-  transform: translateY(-3px);
 }
 
 .option-icon {
-  font-size: 30px;
-  margin-bottom: 14px;
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: #dcfce7;
+  color: #0b3d2e;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.4px;
 }
 
 .option-title {
@@ -110,23 +111,23 @@
 /* BUDGET */
 
 .budget-question {
-  margin-top: 45px;
+  margin-top: 24px;
 }
 
 .budget-options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .budget-option {
-  padding: 16px;
+  padding: 11px 12px;
 
   text-align: center;
 
   background: #f7faf8;
 
-  border: 2px solid #e5e7eb;
+  border: 1px solid #e1e9e3;
   border-radius: 12px;
 
   color: #111827;
@@ -134,42 +135,19 @@
   font-size: 15px;
   font-weight: 600;
 
-  cursor: pointer;
-
-  transition: 0.2s;
 }
 
-.budget-option:hover {
-  border-color: #16a34a;
-  color: #16a34a;
-}
-
-
-/* BUTTON */
-
-.find-button {
-  width: 220px;
-
-  margin: 40px auto 0;
-  padding: 14px 20px;
-
-  background: #16a34a;
-  color: white;
-
+.find-availability {
+  max-width: 560px;
+  margin: 16px auto 0;
+  padding: 11px 16px;
+  border: 1px solid #e1e9e3;
+  border-radius: 12px;
+  background: #f7faf8;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.6;
   text-align: center;
-
-  border-radius: 8px;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-}
-
-.find-button:hover {
-  background: #0b3d2e;
 }
 
 
@@ -191,27 +169,15 @@
 @media (max-width: 600px) {
 
   .find-section {
-    padding: 70px 20px;
+    padding: var(--np-section-space-mobile) 20px;
   }
 
   .find-container {
-    padding: 25px;
+    padding: 18px;
   }
 
-  .find-title {
-    font-size: 34px;
-  }
-
-  .find-options {
-    grid-template-columns: 1fr;
-  }
-
-  .budget-options {
-    grid-template-columns: 1fr;
-  }
-
-  .find-button {
-    width: 100%;
+  .find-option {
+    padding: 13px 12px;
   }
 
 }

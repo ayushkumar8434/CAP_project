@@ -9,29 +9,29 @@ function Hero() {
 
         <div className="hero-content">
 
-          <div className="hero-label">
+          <p className="hero-label">
             THE SMARTER WAY TO BUY & SELL
-          </div>
+          </p>
 
-          <div className="hero-title">
+          <h1 className="hero-title">
             Give Your Phone
             <div className="hero-title-highlight">
               A New Life.
             </div>
-          </div>
+          </h1>
 
-          <div className="hero-description">
-            Buy verified second-hand phones or sell your old device
+          <p className="hero-description">
+            Explore pre-owned phones or sell your old device
             at a fair price.
-          </div>
+          </p>
 
           <div className="hero-buttons">
 
-            <Link to="/" className="hero-button primary-button">
+            <Link to="/#popular-phones" className="hero-button np-button np-button--primary">
               Browse Phones
             </Link>
 
-            <Link to="/sell" className="hero-button secondary-button">
+            <Link to="/sell" className="hero-button np-button np-button--secondary">
               Sell Your Phone
             </Link>
 

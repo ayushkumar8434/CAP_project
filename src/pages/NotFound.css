@@ -1,0 +1,56 @@
+.not-found-page {
+  min-height: min(680px, calc(100vh - 72px));
+  display: grid;
+  place-items: center;
+  padding: clamp(32px, 7vw, 88px) 20px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(22, 163, 74, 0.1), transparent 55%),
+    #f7faf8;
+}
+
+.not-found-card {
+  width: min(100%, 620px);
+  padding: clamp(28px, 6vw, 64px);
+  border: 1px solid #e3ebe5;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(11, 61, 46, 0.08);
+  text-align: center;
+}
+
+.not-found-eyebrow {
+  margin-bottom: 16px;
+  color: #16803c;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.not-found-card h1 {
+  color: #0b3d2e;
+  font-size: clamp(36px, 7vw, 56px);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.not-found-message {
+  max-width: 430px;
+  margin: 18px auto 0;
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+@media (max-width: 480px) {
+  .not-found-actions {
+    flex-direction: column;
+  }
+}

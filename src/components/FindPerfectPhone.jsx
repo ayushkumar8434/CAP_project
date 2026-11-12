@@ -5,21 +5,20 @@ function FindPerfectPhone() {
     <div className="find-section">
 
       <div className="find-header">
-        <div className="find-label">
+        <p className="find-label">
           FIND YOUR PERFECT PHONE
-        </div>
+        </p>
 
-        <div className="find-title">
+        <h2 className="find-title">
           What kind of phone
           <div className="find-title-highlight">
             are you looking for?
           </div>
-        </div>
+        </h2>
 
-        <div className="find-description">
-          Tell us what matters to you and we'll help you find
-          the right phone.
-        </div>
+        <p className="find-description">
+          Explore what to consider when choosing your next phone.
+        </p>
       </div>
 
 
@@ -31,37 +30,37 @@ function FindPerfectPhone() {
 
         <div className="find-options">
 
-          <div className="find-option">
-            <div className="option-icon">📸</div>
-            <div className="option-title">Best Camera</div>
-            <div className="option-description">
+          <article className="find-option">
+            <span className="option-icon" aria-hidden="true">01</span>
+            <h3 className="option-title">Best Camera</h3>
+            <p className="option-description">
               For photos & videos
-            </div>
-          </div>
+            </p>
+          </article>
 
-          <div className="find-option">
-            <div className="option-icon">🎮</div>
-            <div className="option-title">Gaming</div>
-            <div className="option-description">
+          <article className="find-option">
+            <span className="option-icon" aria-hidden="true">02</span>
+            <h3 className="option-title">Gaming</h3>
+            <p className="option-description">
               For gaming & performance
-            </div>
-          </div>
+            </p>
+          </article>
 
-          <div className="find-option">
-            <div className="option-icon">🔋</div>
-            <div className="option-title">Best Battery</div>
-            <div className="option-description">
+          <article className="find-option">
+            <span className="option-icon" aria-hidden="true">03</span>
+            <h3 className="option-title">Best Battery</h3>
+            <p className="option-description">
               Long lasting battery
-            </div>
-          </div>
+            </p>
+          </article>
 
-          <div className="find-option">
-            <div className="option-icon">⚡</div>
-            <div className="option-title">Performance</div>
-            <div className="option-description">
+          <article className="find-option">
+            <span className="option-icon" aria-hidden="true">04</span>
+            <h3 className="option-title">Performance</h3>
+            <p className="option-description">
               Fast & powerful
-            </div>
-          </div>
+            </p>
+          </article>
 
         </div>
 
@@ -91,9 +90,9 @@ function FindPerfectPhone() {
         </div>
 
 
-        <div className="find-button">
-          Find My Phone
-        </div>
+        <p className="find-availability">
+          Personalized matches will be available when live listings launch.
+        </p>
 
       </div>
 

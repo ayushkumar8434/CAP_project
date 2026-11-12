@@ -1,131 +1,76 @@
 .drops-section {
   width: 100%;
-  padding: 90px 60px;
+  padding: 48px clamp(20px, 4.2vw, 60px);
   background: #f7faf8;
 }
 
+.drops-header,
+.drops-availability {
+  width: min(1200px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .drops-header {
-  max-width: 1200px;
-  margin: 0 auto 40px;
+  margin-bottom: 20px;
 }
 
 .drops-label {
+  margin-bottom: 10px;
   color: #16a34a;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
 }
 
 .drops-title {
+  margin: 0;
   color: #0b3d2e;
-  font-size: 40px;
+  font-size: clamp(29px, 3.8vw, 38px);
   font-weight: 700;
+  letter-spacing: -1.1px;
+  line-height: 1.15;
 }
 
-
-/* Phone Grid */
-
-.drops-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
-}
-
-.drop-phone {
-  padding: 14px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  transition: 0.2s;
-}
-
-.drop-phone:hover {
-  transform: translateY(-4px);
-  border-color: #bbf7d0;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-}
-
-
-/* Small Phone Image */
-
-.drop-phone-image {
-  width: 100%;
-  height: 150px;
+.drops-availability {
   display: flex;
+  min-height: 92px;
   align-items: center;
-  justify-content: center;
-  background: #f9fafb;
-  border-radius: 10px;
+  gap: 20px;
+  padding: 18px 22px;
+  border: 1px solid #e1e9e3;
+  border-radius: 15px;
+  background: #fff;
 }
 
-.drop-phone-image img {
-  width: 75%;
-  height: 75%;
-  object-fit: contain;
+.drops-availability-index {
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 1px;
 }
 
-
-/* Price */
-
-.drop-phone-price {
-  margin-top: 14px;
-  color: #0b3d2e;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-
-/* Button */
-
-.drop-phone-button {
-  margin-top: 10px;
-  padding: 9px;
-  background: #16a34a;
-  color: white;
-  text-align: center;
-  border-radius: 7px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.drop-phone-button:hover {
-  background: #0b3d2e;
-}
-
-
-/* Responsive */
-
-@media (max-width: 1100px) {
-  .drops-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 850px) {
-  .drops-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.drops-availability p {
+  max-width: 700px;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.65;
 }
 
 @media (max-width: 600px) {
   .drops-section {
-    padding: 70px 20px;
+    padding-top: 38px;
+    padding-bottom: 40px;
   }
 
-  .drops-title {
-    font-size: 32px;
+  .drops-header {
+    margin-bottom: 17px;
   }
 
-  .drops-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .drop-phone-image {
-    height: 130px;
+  .drops-availability {
+    min-height: 0;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 17px;
   }
 }

@@ -1,6 +1,6 @@
 .verified-section {
   width: 100%;
-  padding: 88px 60px 96px;
+  padding: 68px clamp(20px, 4.2vw, 60px) 72px;
   background: #fff;
   color: #111827;
 }
@@ -15,7 +15,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 48px;
-  padding-bottom: 48px;
+  padding-bottom: 34px;
 }
 
 .verified-eyebrow {
@@ -30,7 +30,7 @@
   max-width: 700px;
   margin: 0;
   color: #0b3d2e;
-  font-size: clamp(36px, 4.5vw, 58px);
+  font-size: clamp(32px, 4.2vw, 54px);
   font-weight: 700;
   letter-spacing: -2px;
   line-height: 1.08;
@@ -52,8 +52,8 @@
 }
 
 .verified-principle {
-  min-height: 196px;
-  padding: 26px 32px 28px 0;
+  min-height: 166px;
+  padding: 22px 24px 23px 0;
 }
 
 .verified-principle + .verified-principle {
@@ -63,7 +63,7 @@
 
 .verified-number {
   display: block;
-  margin-bottom: 24px;
+  margin-bottom: 17px;
   color: #16a34a;
   font-size: 13px;
   font-weight: 700;
@@ -88,14 +88,14 @@
 
 @media (max-width: 800px) {
   .verified-section {
-    padding: 72px 28px 80px;
+    padding: 56px 28px 60px;
   }
 
   .verified-header {
     align-items: flex-start;
     flex-direction: column;
     gap: 18px;
-    padding-bottom: 36px;
+    padding-bottom: 24px;
   }
 
   .verified-intro {
@@ -113,7 +113,7 @@
 
 @media (max-width: 600px) {
   .verified-section {
-    padding: 64px 20px 68px;
+    padding: 44px 20px 48px;
   }
 
   .verified-title {
@@ -127,16 +127,16 @@
 
   .verified-principle {
     min-height: 0;
-    padding: 22px 0 24px;
+    padding: 18px 0 20px;
   }
 
   .verified-principle + .verified-principle {
-    padding: 22px 0 24px;
+    padding: 18px 0 20px;
     border-top: 1px solid #dfe7e2;
     border-left: 0;
   }
 
   .verified-number {
-    margin-bottom: 12px;
+    margin-bottom: 9px;
   }
 }

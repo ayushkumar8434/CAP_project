@@ -1,4 +1,26 @@
 .phone-3d {
-  width: 420px;
+  width: min(420px, 100%);
   height: 520px;
+  margin: 0 auto;
+}
+
+.phone-3d canvas {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .phone-3d {
+    height: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .phone-3d {
+    height: clamp(240px, 66vw, 300px);
+  }
+
+  .hero-visual .phone-3d {
+    height: 100%;
+  }
 }

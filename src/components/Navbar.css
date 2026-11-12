@@ -1,12 +1,34 @@
 .navbar {
+  position: relative;
+  z-index: 10;
   width: 100%;
-  height: 72px;
-  padding: 0 60px;
+  min-height: 72px;
+  padding: 0 clamp(20px, 4.2vw, 60px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: white;
   border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-login {
+  padding: 0 clamp(20px, 6vw, 88px);
+  background: #f7faf8;
+  border-bottom-color: #e6ede8;
+}
+
+.login-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #35584c;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-home-link:hover {
+  color: #16a34a;
 }
 
 .logo {
@@ -19,7 +41,7 @@
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: clamp(18px, 2.4vw, 32px);
 }
 
 .nav-links a {
@@ -33,13 +55,103 @@
   color: #16a34a;
 }
 
-.login-btn {
-  background: #16a34a;
-  color: white !important;
-  padding: 11px 22px;
-  border-radius: 8px;
+.nav-links .login-btn {
+  min-height: 42px;
+  padding: 0 18px;
+  color: #fff;
 }
 
-.login-btn:hover {
-  background: #0b3d2e;
+.nav-menu-toggle {
+  display: none;
+}
+
+.logo:focus-visible,
+.nav-links a:focus-visible,
+.login-home-link:focus-visible,
+.nav-menu-toggle:focus-visible {
+  outline: 3px solid #16a34a;
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    min-height: 64px;
+    padding: 0 16px;
+  }
+
+  .navbar-login {
+    padding: 0 20px;
+  }
+
+  .nav-menu-toggle {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid #dfe7e2;
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .nav-menu-toggle span {
+    display: block;
+    width: 19px;
+    height: 2px;
+    border-radius: 2px;
+    background: #0b3d2e;
+  }
+
+  .navbar.is-menu-open .nav-menu-toggle span:first-child {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .navbar.is-menu-open .nav-menu-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .navbar.is-menu-open .nav-menu-toggle span:last-child {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: none;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 20px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fff;
+    box-shadow: 0 14px 20px rgba(11, 61, 46, 0.1);
+  }
+
+  .navbar.is-menu-open .nav-links {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 13px 4px;
+    white-space: nowrap;
+  }
+
+  .nav-links .login-btn {
+    align-self: flex-start;
+    margin-top: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-menu-toggle span {
+    transition: none;
+  }
 }
