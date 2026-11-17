@@ -8,6 +8,7 @@ import Hero from './components/Hero'
 import BrandSection from './components/BrandSection'
 import PopularPhones from './components/PopularPhones'
 import SellPhone from './pages/sell/sellphone'
+<<<<<<< HEAD
 import FindPerfectPhone from './components/FindPerfectPhone'
 import TodaysDrops from './components/TodaysDrops'
 import YourPhoneValue from './components/YourPhoneValue'
@@ -48,6 +49,13 @@ function ScrollToHash() {
 
   return null
 }
+=======
+import ProductDetails from './pages/product/ProductDetails'
+import Cart from './pages/cart/cart'
+import Checkout from './pages/checkout/Checkout'
+import OrderConfirmation from './pages/checkout/OrderConfirmation'
+import Wishlist from './pages/wishlist/wishlist'
+>>>>>>> 7b9301d (pages)
 
 
 function HomePage() {
@@ -89,7 +97,20 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
+<<<<<<< HEAD
       <AppContent />
+=======
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/sell" element={<SellPhone />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+      </Routes>
+>>>>>>> 7b9301d (pages)
     </BrowserRouter>
   )
 }

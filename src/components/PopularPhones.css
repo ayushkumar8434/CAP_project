@@ -39,7 +39,81 @@
   line-height: 1.6;
 }
 
+<<<<<<< HEAD
 .popular-availability {
+=======
+
+/* PHONE GRID */
+
+.popular-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 24px;
+}
+
+
+/* PHONE CARD */
+
+.phone-card {
+  position: relative;
+  padding: 18px;
+
+  background: #f7faf8;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  transition: 0.3s;
+}
+
+.phone-wishlist-button {
+  position: absolute;
+  z-index: 1;
+  top: 28px;
+  right: 28px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  background: #fff;
+  color: #6b7280;
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.phone-wishlist-button:hover,
+.phone-wishlist-button.is-saved {
+  color: #dc2626;
+}
+
+.phone-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.phone-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+
+/* PHONE IMAGE */
+
+.phone-image {
+  width: 100%;
+  height: 280px;
+
+>>>>>>> 7b9301d (pages)
   display: flex;
   align-items: center;
   gap: 18px;
@@ -62,10 +136,71 @@
   background: #fff;
 }
 
+<<<<<<< HEAD
 .availability-mark span {
   width: 10px;
   height: 10px;
   border-radius: 50%;
+=======
+
+/* PHONE INFORMATION */
+
+.phone-brand {
+  margin-top: 18px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+.phone-name {
+  margin-top: 5px;
+
+  color: #111827;
+
+  font-size: 20px;
+
+  font-weight: 600;
+}
+
+.phone-rating {
+  margin-top: 10px;
+
+  color: #16a34a;
+
+  font-size: 14px;
+}
+
+.phone-price {
+  margin-top: 14px;
+
+  color: #0b3d2e;
+
+  font-size: 22px;
+
+  font-weight: 700;
+}
+
+.phone-old-price {
+  margin-top: 4px;
+
+  color: #9ca3af;
+
+  font-size: 14px;
+
+  text-decoration: line-through;
+}
+
+
+/* BUTTON */
+
+.phone-button {
+  display: block;
+  margin-top: 18px;
+
+  padding: 12px;
+
+>>>>>>> 7b9301d (pages)
   background: #16a34a;
   box-shadow: 0 0 0 5px #dcfce7;
 }

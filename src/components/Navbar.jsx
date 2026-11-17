@@ -44,33 +44,14 @@ function Navbar() {
         NewPhone
       </Link>
 
-      <button
-        className="nav-menu-toggle"
-        type="button"
-        ref={menuButtonRef}
-        aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-        aria-expanded={menuOpen}
-        aria-controls="primary-navigation"
-        onClick={() => setMenuOpen((isOpen) => !isOpen)}
-      >
-        <span />
-        <span />
-        <span />
-      </button>
-
-      <div className="nav-links" id="primary-navigation">
-        <Link to="/#popular-phones" onClick={closeMenu}>Buy Phones</Link>
-        <Link to="/sell" onClick={closeMenu}>Sell Your Phone</Link>
-        <Link
-          to="/login"
-          className="login-btn np-button np-button--primary"
-          onClick={closeMenu}
-        >
-          Login
-        </Link>
-      </div>
-    </nav>
-  )
+            <div className="nav-links">
+            <Link to="/">Buy Phones</Link>
+            <Link to="/sell">Sell Your Phone</Link>
+            <a href="/login"
+             className="login-btn">Login</a>
+            </div>
+        </nav>
+    )
 }
 
 export default Navbar
