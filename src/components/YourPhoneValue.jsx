@@ -6,7 +6,7 @@ function YourPhoneValue() {
     <section className="value-section">
 
       <div className="value-top">
-        <span>NEWPHONE PRESENTS</span>
+        <span>POCKETPHONE PRESENTS</span>
         <span>THE UPGRADE CLUB®</span>
       </div>
 

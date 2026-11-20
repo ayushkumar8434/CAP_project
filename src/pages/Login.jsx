@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './Login.css'
 
 const API_BASE_URL = 'http://localhost:5001/api'
 
 function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [isSignup, setIsSignup] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [feedback, setFeedback] = useState('')
@@ -73,13 +74,13 @@ function Login() {
           setFeedback('Login successful! Redirecting...')
           
           setTimeout(() => {
-            navigate('/')
+            navigate(location.state?.from || '/', { replace: true })
           }, 1000)
         }
       } else {
         setFeedback(data.message || `${isSignup ? 'Signup' : 'Login'} failed. Please try again.`)
       }
-    } catch (error) {
+    } catch {
       setFeedback('Network error. Please check your connection and try again.')
     } finally {
       setLoading(false)
@@ -88,7 +89,7 @@ function Login() {
 
   return (
     <main className="login-page">
-      <section className="login-layout" aria-label="Log in to NewPhone">
+      <section className="login-layout" aria-label="Log in to PocketPhone">
         <div className="login-story">
           <div className="login-story-copy">
             <p className="login-eyebrow"><span /> YOUR NEXT PHONE, YOUR WAY</p>
@@ -124,9 +125,9 @@ function Login() {
         <div className="login-form-side">
           <div className="login-card">
             <div className="login-card-heading">
-              <p className="login-card-kicker">{isSignup ? 'JOIN NEWPHONE' : 'GOOD TO HAVE YOU BACK'}</p>
+              <p className="login-card-kicker">{isSignup ? 'JOIN POCKETPHONE' : 'GOOD TO HAVE YOU BACK'}</p>
               <h2>{isSignup ? 'Create Account' : 'Welcome Back!'}</h2>
-              <p>{isSignup ? 'Sign up to start your NewPhone journey.' : 'Login to continue your NewPhone journey.'}</p>
+              <p>{isSignup ? 'Sign up to start your PocketPhone journey.' : 'Login to continue your PocketPhone journey.'}</p>
             </div>
 
             <form className="login-form" onSubmit={handleSubmit} noValidate>
@@ -226,7 +227,7 @@ function Login() {
                 </>
               ) : (
                 <>
-                  New to NewPhone?{' '}
+                  New to PocketPhone?{' '}
                   <button 
                     type="button"
                     className="login-toggle-link"

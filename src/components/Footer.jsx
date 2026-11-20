@@ -3,7 +3,6 @@ import './Footer.css'
 
 const helpfulLinks = [
   { label: 'Is This a Good Deal?', id: 'good-deal' },
-  { label: 'NewPhone Journal', id: 'newphone-journal' },
 ]
 
 function scrollToSection(id) {
@@ -28,8 +27,8 @@ function Footer() {
       <div className="site-footer-inner">
         <div className="site-footer-main">
           <div className="site-footer-brand">
-            <Link className="site-footer-logo" to="/" aria-label="NewPhone home">
-              NewPhone<span aria-hidden="true">.</span>
+            <Link className="site-footer-logo" to="/" aria-label="PocketPhone home">
+              PocketPhone<span aria-hidden="true">.</span>
             </Link>
             <p className="site-footer-tagline">Give Your Phone A New Life.</p>
             <p className="site-footer-description">
@@ -64,7 +63,7 @@ function Footer() {
         </div>
 
         <div className="site-footer-bottom">
-          <p>© {currentYear} NewPhone. All rights reserved.</p>
+          <p>© {currentYear} PocketPhone. All rights reserved.</p>
           <p>Made for smarter phone choices.</p>
         </div>
       </div>

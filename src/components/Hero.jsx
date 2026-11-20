@@ -1,5 +1,6 @@
 import './Hero.css'
 import Phone3D from './Phone3D'
+import SafeBoundary from './SafeBoundary'
 import { Link } from 'react-router-dom'
 
 function Hero() {
@@ -41,7 +42,9 @@ function Hero() {
 
         <div className="hero-visual">
 
-            <Phone3D />
+            <SafeBoundary>
+              <Phone3D />
+            </SafeBoundary>
 
         </div>
       </div>

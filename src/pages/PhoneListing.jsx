@@ -81,6 +81,7 @@ function PhoneListing() {
 
   // Fetch phones when URL params change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetch on mount/param change
     fetchPhones()
   }, [fetchPhones])
 
@@ -134,7 +135,7 @@ function PhoneListing() {
       <div className="phone-listing-container">
         {/* Page Header */}
         <header className="phone-listing-header">
-          <p className="phone-listing-eyebrow">NEWPHONE MARKETPLACE</p>
+          <p className="phone-listing-eyebrow">POCKETPHONE MARKETPLACE</p>
           <h1 className="phone-listing-title">Explore Phones</h1>
           <p className="phone-listing-description">
             Discover quality pre-owned phones at great prices. Each device is

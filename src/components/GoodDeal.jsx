@@ -122,7 +122,7 @@ function GoodDeal() {
             </h2>
           </div>
           <p className="good-deal-intro">
-            Compare against an illustrative range, not a live NewPhone
+            Compare against an illustrative range, not a live PocketPhone
             valuation.
           </p>
         </div>

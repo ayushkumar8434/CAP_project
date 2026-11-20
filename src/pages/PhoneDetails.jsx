@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import './PhoneDetails.css'
 
@@ -10,27 +10,32 @@ function PhoneDetails() {
   const [phone, setPhone] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [addedToCart, setAddedToCart] = useState(false)
+  const [cartVersion, setCartVersion] = useState(0)
+  const addedToCart = useMemo(
+    () => JSON.parse(localStorage.getItem('cart') || '[]').some((item) => item._id === id),
+    // cartVersion changes whenever this page adds to the cart
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, cartVersion],
+  )
+  const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+  const isOwner = Boolean(
+    currentUser._id && phone?.seller?._id && currentUser._id === phone.seller._id,
+  )
 
-  // Check if already in cart
-  useEffect(() => {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
-    setAddedToCart(cart.some((item) => item._id === id))
-  }, [id])
 
   const addToCart = () => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]')
     
     // Check if already in cart
     if (cart.some((item) => item._id === phone._id)) {
-      setAddedToCart(true)
+      setCartVersion((v) => v + 1)
       return
     }
 
     // Add phone to cart
     cart.push(phone)
     localStorage.setItem('cart', JSON.stringify(cart))
-    setAddedToCart(true)
+    setCartVersion((v) => v + 1)
 
     // Show feedback
     setTimeout(() => {
@@ -216,25 +221,33 @@ function PhoneDetails() {
               </div>
             )}
 
-            <div className="phone-details-actions">
-              <button
-                type="button"
-                className="np-button np-button--primary"
-                onClick={buyNow}
-                disabled={phone.status !== 'available'}
-              >
-                {phone.status === 'available' ? 'Buy Now' : 'Sold Out'}
-              </button>
-              <button
-                type="button"
-                className="np-button np-button--secondary"
-                onClick={addToCart}
-                disabled={phone.status !== 'available' || addedToCart}
-              >
-                {addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
-              </button>
-            </div>
-
+            {isOwner ? (
+              <div className="phone-details-owner">
+                <p>This is your listing, so buying is disabled.</p>
+                <Link to="/my-listings" className="np-button np-button--primary">
+                  Manage in My Listings
+                </Link>
+              </div>
+            ) : (
+              <div className="phone-details-actions">
+                <button
+                  type="button"
+                  className="np-button np-button--primary"
+                  onClick={buyNow}
+                  disabled={phone.status !== 'available'}
+                >
+                  {phone.status === 'available' ? 'Buy Now' : 'Sold Out'}
+                </button>
+                <button
+                  type="button"
+                  className="np-button np-button--secondary"
+                  onClick={addToCart}
+                  disabled={phone.status !== 'available' || addedToCart}
+                >
+                  {addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+                </button>
+              </div>
+            )}
             <div className="phone-details-extra-actions">
               <Link
                 to="/phones"

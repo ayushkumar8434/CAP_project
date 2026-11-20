@@ -5,7 +5,7 @@ function NotFound() {
   return (
     <main className="not-found-page">
       <section className="not-found-card" aria-labelledby="not-found-heading">
-        <p className="not-found-eyebrow">NEWPHONE / 404</p>
+        <p className="not-found-eyebrow">POCKETPHONE / 404</p>
         <h1 id="not-found-heading">Page Not Found</h1>
         <p className="not-found-message">
           We couldn’t find the page you were looking for. Head home or explore

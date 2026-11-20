@@ -83,7 +83,10 @@ function OrderConfirmation() {
           </div>
 
           <div className="confirmation-actions">
-            <Link to="/phones" className="np-button np-button--primary">
+            <Link to="/orders" className="np-button np-button--primary">
+              View Your Orders
+            </Link>
+            <Link to="/phones" className="np-button np-button--secondary">
               Continue Shopping
             </Link>
             <Link to="/" className="np-button np-button--secondary">

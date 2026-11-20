@@ -24,7 +24,7 @@ app.use("/api/payment", paymentRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "NewPhone Backend is running!",
+    message: "PocketPhone Backend is running!",
   });
 });
 

@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding: var(--np-section-space-wide) clamp(20px, 4.2vw, 60px) 64px;
+  padding: 44px clamp(20px, 4.2vw, 60px) 40px;
   background: #0b3d2e;
   color: #fff;
 }
@@ -23,11 +23,11 @@
 }
 
 .final-cta-title {
-  margin: 23px 0 0;
+  margin: 14px 0 0;
   color: #fff;
-  font-size: clamp(54px, 8vw, 94px);
+  font-size: clamp(38px, 5vw, 56px);
   font-weight: 800;
-  letter-spacing: -5px;
+  letter-spacing: -2.5px;
   line-height: 0.9;
 }
 
@@ -37,9 +37,9 @@
 
 .final-cta-description {
   max-width: 480px;
-  margin: 22px auto 0;
+  margin: 14px auto 0;
   color: #d1e7dc;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -48,12 +48,12 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .final-cta-link {
-  min-height: 52px;
-  gap: 18px;
+  min-height: 44px;
+  gap: 14px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 700;
@@ -87,7 +87,7 @@
   top: -34px;
   right: 4%;
   color: rgba(134, 239, 172, 0.16);
-  font-size: clamp(110px, 20vw, 250px);
+  font-size: clamp(80px, 12vw, 150px);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -95,22 +95,22 @@
 
 @media (max-width: 800px) {
   .final-cta-section {
-    padding: 52px 28px 56px;
+    padding: 36px 28px 36px;
   }
 
   .final-cta-title {
-    letter-spacing: -3.5px;
+    letter-spacing: -2px;
   }
 }
 
 @media (max-width: 600px) {
   .final-cta-section {
-    padding: 42px 20px 46px;
+    padding: 32px 20px 32px;
   }
 
   .final-cta-title {
-    font-size: clamp(52px, 15vw, 72px);
-    letter-spacing: -3px;
+    font-size: clamp(36px, 11vw, 46px);
+    letter-spacing: -2px;
   }
 
   .final-cta-description {
@@ -123,7 +123,7 @@
     flex-direction: column;
     gap: 10px;
     max-width: 360px;
-    margin: 26px auto 0;
+    margin: 18px auto 0;
   }
 
   .final-cta-link {

@@ -11,10 +11,7 @@ import SellPhone from './pages/sell/sellphone'
 import FindPerfectPhone from './components/FindPerfectPhone'
 import TodaysDrops from './components/TodaysDrops'
 import YourPhoneValue from './components/YourPhoneValue'
-import NewPhoneVerified from './components/NewPhoneVerified'
-import ShopByNeed from './components/ShopByNeed'
 import GoodDeal from './components/GoodDeal'
-import NewPhoneJournal from './components/NewPhoneJournal'
 import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
 import PhoneListing from './pages/PhoneListing'
@@ -22,6 +19,9 @@ import PhoneDetails from './pages/PhoneDetails'
 import Cart from './pages/cart/cart'
 import Checkout from './pages/checkout/Checkout'
 import OrderConfirmation from './pages/checkout/OrderConfirmation'
+import Orders from './pages/orders/Orders'
+import MyListings from './pages/sell/MyListings'
+import RequireAuth from './components/RequireAuth'
 import StripeWrapper from './components/StripeWrapper'
 
 function ScrollToHash() {
@@ -65,9 +65,6 @@ function HomePage() {
       <TodaysDrops />
       <GoodDeal />
       <YourPhoneValue />
-      <NewPhoneVerified />
-      <ShopByNeed />
-      <NewPhoneJournal />
       <FinalCTA />
     </>
   )
@@ -82,19 +79,23 @@ function AppContent() {
       <ScrollToHash />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/phones" element={<PhoneListing />} />
-        <Route path="/phones/:id" element={<PhoneDetails />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/phones" element={<RequireAuth><PhoneListing /></RequireAuth>} />
+        <Route path="/phones/:id" element={<RequireAuth><PhoneDetails /></RequireAuth>} />
+        <Route path="/cart" element={<RequireAuth><Cart /></RequireAuth>} />
         <Route 
           path="/checkout" 
           element={
-            <StripeWrapper>
-              <Checkout />
-            </StripeWrapper>
+            <RequireAuth>
+              <StripeWrapper>
+                <Checkout />
+              </StripeWrapper>
+            </RequireAuth>
           } 
         />
-        <Route path="/order-confirmation" element={<OrderConfirmation />} />
-        <Route path="/sell" element={<SellPhone />} />
+        <Route path="/order-confirmation" element={<RequireAuth><OrderConfirmation /></RequireAuth>} />
+        <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
+        <Route path="/my-listings" element={<RequireAuth><MyListings /></RequireAuth>} />
+        <Route path="/sell" element={<RequireAuth><SellPhone /></RequireAuth>} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

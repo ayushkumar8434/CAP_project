@@ -1,42 +1,57 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import './Checkout.css'
 
 const API_BASE_URL = 'http://localhost:5001/api'
 
+function makeReference() {
+  return `NP-${Date.now().toString().slice(-8)}`
+}
+
+function saveOrder(order) {
+  const orders = JSON.parse(localStorage.getItem('orders') || '[]')
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  orders.unshift({ ...order, userEmail: user.email || order.customer.email })
+  localStorage.setItem('orders', JSON.stringify(orders))
+  localStorage.setItem('lastOrder', JSON.stringify(order))
+}
+
+const PAYMENT_METHODS = [
+  { id: 'card', label: 'Credit / Debit Card', icon: '💳' },
+  { id: 'upi', label: 'UPI', icon: '📱' },
+  { id: 'netbanking', label: 'Net Banking', icon: '🏦' },
+  { id: 'wallet', label: 'Wallets', icon: '👛' },
+  { id: 'cod', label: 'Cash on Delivery', icon: '💵' },
+]
+const BANKS = ['State Bank of India', 'HDFC Bank', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank', 'Punjab National Bank', 'Bank of Baroda']
+const WALLETS = ['Paytm', 'PhonePe', 'Amazon Pay', 'Mobikwik', 'Freecharge']
+
 function Checkout() {
   const navigate = useNavigate()
   const stripe = useStripe()
   const elements = useElements()
   
-  const [cart, setCart] = useState([])
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    pincode: '',
+  const [cart] = useState(() => JSON.parse(localStorage.getItem('cart') || '[]'))
+  const [formData, setFormData] = useState(() => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    return {
+      fullName: user.name || '',
+      email: user.email || '',
+      phone: '',
+      address: '',
+      city: '',
+      pincode: '',
+    }
   })
   const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState('')
   const [paymentProcessing, setPaymentProcessing] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState('card')
+  const [upiId, setUpiId] = useState('')
+  const [bank, setBank] = useState('')
+  const [wallet, setWallet] = useState('')
 
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart') || '[]')
-    setCart(savedCart)
-
-    // Auto-fill user info if logged in
-    const user = JSON.parse(localStorage.getItem('user') || '{}')
-    if (user.name && user.email) {
-      setFormData((prev) => ({
-        ...prev,
-        fullName: user.name,
-        email: user.email,
-      }))
-    }
-  }, [])
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', {
@@ -61,6 +76,38 @@ function Checkout() {
 
     if (cart.length === 0) {
       navigate('/cart', { replace: true })
+      return
+    }
+
+    if (paymentMethod === 'upi' && !/^[\w.-]{2,}@[a-zA-Z]{2,}$/.test(upiId.trim())) {
+      setFormError('Enter a valid UPI ID, e.g. name@okbank')
+      return
+    }
+    if (paymentMethod === 'netbanking' && !bank) {
+      setFormError('Please select your bank.')
+      return
+    }
+    if (paymentMethod === 'wallet' && !wallet) {
+      setFormError('Please select a wallet.')
+      return
+    }
+
+    if (paymentMethod !== 'card') {
+      // UPI / Net Banking / Wallet / COD are not processed by Stripe yet.
+      // The order is recorded locally; UPI, Net Banking and Wallet are marked pending.
+      const labels = { upi: `UPI (${upiId.trim()})`, netbanking: `Net Banking (${bank})`, wallet: `Wallet (${wallet})`, cod: 'Cash on Delivery' }
+      const order = {
+        customer: formData,
+        items: cart,
+        total,
+        reference: makeReference(),
+        date: new Date().toISOString(),
+        paymentStatus: paymentMethod === 'cod' ? 'pay_on_delivery' : 'pending',
+        paymentMethod: labels[paymentMethod],
+      }
+      localStorage.setItem('cart', JSON.stringify([]))
+      saveOrder(order)
+      navigate('/order-confirmation', { state: { demoOrder: order } })
       return
     }
 
@@ -135,15 +182,16 @@ function Checkout() {
           customer: formData,
           items: cart,
           total,
-          reference: `NP-${Date.now().toString().slice(-8)}`,
+          reference: makeReference(),
           date: new Date().toISOString(),
           paymentStatus: 'paid',
           paymentId: paymentIntent.id,
+          paymentMethod: 'Card',
         }
 
         // Clear cart and save order
         localStorage.setItem('cart', JSON.stringify([]))
-        localStorage.setItem('lastOrder', JSON.stringify(demoOrder))
+        saveOrder(demoOrder)
         
         // Navigate to confirmation
         navigate('/order-confirmation', { state: { demoOrder } })
@@ -295,15 +343,81 @@ function Checkout() {
 
             <div className="form-section">
               <h2>Payment Information</h2>
-              <label>
-                Card Details <span className="required">*</span>
-                <div className="stripe-card-element">
-                  <CardElement options={cardElementOptions} />
-                </div>
-              </label>
-              <p className="payment-note">
-                🔒 Your payment is secured by Stripe. We never store your card details.
-              </p>
+              <div className="payment-methods" role="radiogroup" aria-label="Payment method">
+                {PAYMENT_METHODS.map((m) => (
+                  <label
+                    key={m.id}
+                    className={`payment-method${paymentMethod === m.id ? ' is-active' : ''}`}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={m.id}
+                      checked={paymentMethod === m.id}
+                      onChange={() => setPaymentMethod(m.id)}
+                      disabled={loading}
+                    />
+                    <span aria-hidden="true">{m.icon}</span>
+                    <span>{m.label}</span>
+                  </label>
+                ))}
+              </div>
+
+              {paymentMethod === 'card' && (
+                <>
+                  <label>
+                    Card Details <span className="required">*</span>
+                    <div className="stripe-card-element">
+                      <CardElement options={cardElementOptions} />
+                    </div>
+                  </label>
+                  <p className="payment-note">
+                    🔒 Your payment is secured by Stripe. We never store your card details.
+                  </p>
+                </>
+              )}
+
+              {paymentMethod === 'upi' && (
+                <label>
+                  UPI ID <span className="required">*</span>
+                  <input
+                    type="text"
+                    value={upiId}
+                    onChange={(e) => setUpiId(e.target.value)}
+                    placeholder="name@okbank"
+                  />
+                </label>
+              )}
+
+              {paymentMethod === 'netbanking' && (
+                <label>
+                  Select Bank <span className="required">*</span>
+                  <select value={bank} onChange={(e) => setBank(e.target.value)} className="payment-select">
+                    <option value="">Choose your bank</option>
+                    {BANKS.map((b) => (
+                      <option key={b} value={b}>{b}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+
+              {paymentMethod === 'wallet' && (
+                <label>
+                  Select Wallet <span className="required">*</span>
+                  <select value={wallet} onChange={(e) => setWallet(e.target.value)} className="payment-select">
+                    <option value="">Choose a wallet</option>
+                    {WALLETS.map((w) => (
+                      <option key={w} value={w}>{w}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+
+              {paymentMethod === 'cod' && (
+                <p className="payment-note">
+                  Pay in cash when your phone is delivered.
+                </p>
+              )}
             </div>
 
             {formError && (
@@ -315,21 +429,25 @@ function Checkout() {
             <button
               type="submit"
               className="np-button np-button--primary checkout-submit-btn"
-              disabled={loading || !stripe}
+              disabled={loading || (paymentMethod === 'card' && !stripe)}
             >
               {paymentProcessing ? (
                 <>
                   <span className="payment-spinner" />
                   Processing Payment...
                 </>
+              ) : paymentMethod === 'cod' ? (
+                'Place Order'
               ) : (
                 `Pay ${formatPrice(total)}`
               )}
             </button>
 
-            <p className="test-card-note">
-              <strong>Test Card:</strong> 4242 4242 4242 4242 | Any future date | Any 3-digit CVC
-            </p>
+            {paymentMethod === 'card' && (
+              <p className="test-card-note">
+                <strong>Test Card:</strong> 4242 4242 4242 4242 | Any future date | Any 3-digit CVC
+              </p>
+            )}
           </form>
 
           <aside className="checkout-summary">

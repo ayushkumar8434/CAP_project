@@ -6,6 +6,7 @@ import {
   createPhone,
   updatePhone,
   deletePhone,
+  getMyPhones,
 } from "../controllers/searchController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -17,6 +18,9 @@ const router = Router();
 
 // Search route must come before /:id routes to prevent "search" being treated as an ID
 router.get("/search", searchPhones);
+
+// Logged-in seller's own listings (must be before /:id)
+router.get("/mine", authMiddleware, getMyPhones);
 
 // Get all phones with filtering, sorting and pagination
 router.get("/", getAllPhones);

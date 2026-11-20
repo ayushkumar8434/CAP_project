@@ -130,7 +130,7 @@ function SellPhone() {
         
         // Redirect to phone listing page after 2 seconds
         setTimeout(() => {
-          navigate('/phones')
+          navigate('/my-listings')
         }, 2000)
       } else if (response.status === 401) {
         setError('Your session has expired. Please login again.')
@@ -141,7 +141,7 @@ function SellPhone() {
       } else {
         setError(data.message || 'Failed to create listing. Please try again.')
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please check your connection and try again.')
     } finally {
       setLoading(false)
@@ -169,7 +169,7 @@ function SellPhone() {
             <span className="sell-message-icon">✓</span>
             <div>
               <h3>Listing Created Successfully!</h3>
-              <p>Your phone is now listed on NewPhone. Redirecting to browse page...</p>
+              <p>Your phone is now listed on PocketPhone. Redirecting to browse page...</p>
             </div>
           </div>
         )}
@@ -368,7 +368,7 @@ function SellPhone() {
               )}
             </button>
             <p className="sell-form-note">
-              By submitting, you agree to list your phone on NewPhone marketplace.
+              By submitting, you agree to list your phone on PocketPhone marketplace.
             </p>
           </div>
         </form>

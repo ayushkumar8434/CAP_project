@@ -1,0 +1,52 @@
+.mylist-page { min-height: calc(100vh - 72px); padding: 48px 24px 80px; background: #f7faf8; }
+.mylist-inner { max-width: 960px; margin: 0 auto; }
+
+.mylist-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+.mylist-eyebrow { margin: 0 0 6px; color: #16a34a; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; }
+.mylist-head h1 { margin: 0 0 6px; color: #0b3d2e; font-size: 34px; }
+.mylist-sub { margin: 0; color: #6b7280; font-size: 15px; }
+
+.mylist-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.mylist-stat { display: flex; flex-direction: column; gap: 4px; padding: 18px 20px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; }
+.mylist-stat-value { color: #0b3d2e; font-size: 28px; font-weight: 700; }
+.mylist-stat-label { color: #6b7280; font-size: 13px; }
+
+.mylist-loading { color: #6b7280; }
+.mylist-empty { padding: 64px 24px; text-align: center; border: 1px dashed #cbd9d0; border-radius: 16px; background: #fff; }
+.mylist-empty-icon { font-size: 56px; margin-bottom: 8px; }
+.mylist-empty h2 { margin: 0 0 8px; color: #0b3d2e; }
+.mylist-empty p { margin: 0 0 24px; color: #6b7280; }
+
+.mylist-grid { display: flex; flex-direction: column; gap: 16px; }
+.mylist-card { display: flex; gap: 20px; padding: 20px; border: 1px solid #e5e7eb; border-radius: 14px; background: #fff; box-shadow: 0 2px 8px rgba(11, 61, 46, 0.04); transition: box-shadow 150ms ease, border-color 150ms ease; }
+.mylist-card:hover { border-color: #bbf7d0; box-shadow: 0 6px 18px rgba(11, 61, 46, 0.08); }
+.mylist-card.is-sold { opacity: 0.8; }
+.mylist-thumb { display: flex; flex: 0 0 96px; height: 96px; align-items: center; justify-content: center; border-radius: 12px; background: linear-gradient(135deg, #ecfdf5, #d1fae5); font-size: 40px; }
+.mylist-body { display: flex; flex: 1; flex-direction: column; gap: 12px; min-width: 0; }
+.mylist-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.mylist-brand { margin: 0 0 2px; color: #6b7280; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; }
+.mylist-title { color: #111827; font-size: 18px; font-weight: 700; text-decoration: none; }
+.mylist-title:hover { color: #16a34a; }
+.mylist-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.mylist-chips span { padding: 4px 10px; border-radius: 6px; background: #f3f4f6; color: #4b5563; font-size: 12px; }
+.mylist-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.mylist-price { margin: 0; color: #0b3d2e; font-size: 22px; font-weight: 700; }
+
+.mylist-status { padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; text-transform: capitalize; white-space: nowrap; }
+.mylist-status--available { background: #dcfce7; color: #166534; }
+.mylist-status--sold { background: #e5e7eb; color: #374151; }
+.mylist-status--reserved { background: #fef9c3; color: #854d0e; }
+
+.mylist-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.mylist-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border: 1px solid #cbd9d0; border-radius: 8px; background: #fff; color: #0b3d2e; font: inherit; font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; transition: background 150ms ease, border-color 150ms ease; }
+.mylist-btn:hover { background: #f0fdf4; border-color: #16a34a; }
+.mylist-btn--primary { border-color: #16a34a; background: #16a34a; color: #fff; }
+.mylist-btn--primary:hover { background: #15803d; }
+.mylist-btn--danger { border-color: #fca5a5; color: #dc2626; }
+.mylist-btn--danger:hover { background: #fef2f2; border-color: #dc2626; }
+
+@media (max-width: 640px) {
+  .mylist-stats { grid-template-columns: 1fr; }
+  .mylist-card { flex-direction: column; }
+  .mylist-thumb { flex-basis: auto; width: 100%; height: 80px; }
+}

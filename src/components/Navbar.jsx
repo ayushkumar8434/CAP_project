@@ -6,32 +6,22 @@ function Navbar() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userName, setUserName] = useState('')
-  const [cartCount, setCartCount] = useState(0)
+  const [, forceRender] = useState(0)
   const menuButtonRef = useRef(null)
 
-  // Check login status and cart count
-  useEffect(() => {
-    const token = localStorage.getItem('authToken')
-    const user = localStorage.getItem('user')
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
-    
-    setCartCount(cart.length)
-    
-    if (token && user) {
-      setIsLoggedIn(true)
-      try {
-        const userData = JSON.parse(user)
-        setUserName(userData.name || 'User')
-      } catch {
-        setUserName('User')
-      }
-    } else {
-      setIsLoggedIn(false)
-      setUserName('')
+  // Login status and cart count are read on every render; the navbar re-renders on route change.
+  const token = localStorage.getItem('authToken')
+  const storedUser = localStorage.getItem('user')
+  const isLoggedIn = Boolean(token && storedUser)
+  let userName = ''
+  if (isLoggedIn) {
+    try {
+      userName = JSON.parse(storedUser).name || 'User'
+    } catch {
+      userName = 'User'
     }
-  }, [pathname]) // Re-check on route change
+  }
+  const cartCount = JSON.parse(localStorage.getItem('cart') || '[]').length
 
   useEffect(() => {
     if (!menuOpen) return undefined
@@ -54,9 +44,8 @@ function Navbar() {
   function handleLogout() {
     localStorage.removeItem('authToken')
     localStorage.removeItem('user')
-    setIsLoggedIn(false)
-    setUserName('')
     closeMenu()
+    forceRender((n) => n + 1)
     navigate('/')
   }
 
@@ -64,7 +53,7 @@ function Navbar() {
     return (
       <nav className="navbar navbar-login" aria-label="Main navigation">
         <Link className="logo" to="/" onClick={closeMenu}>
-          NewPhone
+          PocketPhone
         </Link>
         <Link className="login-home-link" to="/">
           <span aria-hidden="true">&larr;</span> Back to Home
@@ -76,7 +65,7 @@ function Navbar() {
   return (
     <nav className={`navbar${menuOpen ? ' is-menu-open' : ''}`} aria-label="Main navigation">
       <Link className="logo" to="/" onClick={closeMenu}>
-        NewPhone
+        PocketPhone
       </Link>
 
       <button
@@ -94,14 +83,20 @@ function Navbar() {
       </button>
 
       <div className="nav-links" id="primary-navigation">
-        <Link to="/phones" onClick={closeMenu}>Buy Phones</Link>
-        <Link to="/sell" onClick={closeMenu}>Sell Your Phone</Link>
-        
-        <Link to="/cart" className="nav-cart-link" onClick={closeMenu}>
-          🛒 Cart
-          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-        </Link>
-        
+        {isLoggedIn && (
+          <>
+          <Link to="/phones" onClick={closeMenu}>Buy Phones</Link>
+          <Link to="/sell" onClick={closeMenu}>Sell Your Phone</Link>
+          <Link to="/orders" onClick={closeMenu}>Your Orders</Link>
+          <Link to="/my-listings" onClick={closeMenu}>My Listings</Link>
+          
+          <Link to="/cart" className="nav-cart-link" onClick={closeMenu}>
+            🛒 Cart
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          </Link>
+          
+          </>
+        )}
         {isLoggedIn ? (
           <>
             <span className="nav-user-name">Hi, {userName}</span>

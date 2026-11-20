@@ -598,3 +598,16 @@ export const deletePhone = async (req, res) => {
     });
   }
 };
+
+/**
+ * GET /api/phones/mine - listings created by the logged-in user (any status)
+ */
+export const getMyPhones = async (req, res) => {
+  try {
+    const phones = await Phone.find({ seller: req.user.id }).sort({ createdAt: -1 });
+    return res.status(200).json({ success: true, count: phones.length, data: phones });
+  } catch (error) {
+    console.error("Get my phones error:", error);
+    return res.status(500).json({ success: false, message: "Failed to fetch your listings." });
+  }
+};

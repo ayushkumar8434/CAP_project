@@ -98,7 +98,7 @@ function NewPhoneJournal() {
       <div className="journal-inner">
         <div className="journal-header">
           <div>
-            <p className="journal-eyebrow">THE NEWPHONE JOURNAL</p>
+            <p className="journal-eyebrow">THE POCKETPHONE JOURNAL</p>
             <h2 className="journal-title" id="journal-heading">
               Good tech.
               <br />
@@ -208,7 +208,7 @@ function NewPhoneJournal() {
               ))}
             </div>
             <p className="journal-dialog-note">
-              NewPhone Journal — practical advice for your next phone move.
+              PocketPhone Journal — practical advice for your next phone move.
             </p>
           </div>
         )}

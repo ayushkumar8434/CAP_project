@@ -107,3 +107,15 @@
     flex-basis: 36px;
   }
 }
+
+.popular-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.popular-status { width: min(1200px, 100%); margin: 0 auto; color: #6b7280; }
+
+.popular-more { display: flex; justify-content: center; margin-top: 32px; }

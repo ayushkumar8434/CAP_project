@@ -1,18 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Cart.css'
 
 function Cart() {
   const navigate = useNavigate()
-  const [cart, setCart] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    // Load cart from localStorage
-    const savedCart = JSON.parse(localStorage.getItem('cart') || '[]')
-    setCart(savedCart)
-    setLoading(false)
-  }, [])
+  const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem('cart') || '[]'))
+  const loading = false
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', {

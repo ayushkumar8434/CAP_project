@@ -366,3 +366,47 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Payment method selector */
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.checkout-form .payment-method {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.checkout-form .payment-method input {
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.checkout-form .payment-method.is-active {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+
+.payment-select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+}

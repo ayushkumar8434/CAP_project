@@ -293,3 +293,21 @@
 .continue-browsing-link:hover {
   color: #0b3d2e;
 }
+
+.phone-details-owner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  background: #f0fdf4;
+}
+
+.phone-details-owner p {
+  margin: 0;
+  color: #166534;
+  font-size: 14px;
+  font-weight: 600;
+}

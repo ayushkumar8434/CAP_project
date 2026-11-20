@@ -1,4 +1,3 @@
-import { products } from '../data/products'
 import './BrandSection.css'
 
 const brands = [
