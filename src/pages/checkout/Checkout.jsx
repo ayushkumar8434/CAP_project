@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import './Checkout.css'
 
-const API_BASE_URL = 'http://localhost:5001/api'
+import { API_BASE_URL } from '../../config'
 
 function makeReference() {
   return `NP-${Date.now().toString().slice(-8)}`

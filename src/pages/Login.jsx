@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import './Login.css'
 
-const API_BASE_URL = 'http://localhost:5001/api'
+import { API_BASE_URL } from '../config'
 
 function Login() {
   const navigate = useNavigate()

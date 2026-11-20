@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './sellphone.css'
 
-const API_BASE_URL = 'http://localhost:5001/api'
+import { API_BASE_URL } from '../../config'
 
 function SellPhone() {
   const navigate = useNavigate()

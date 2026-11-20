@@ -1,4 +1,4 @@
-export const API_ORIGIN = 'http://localhost:5001'
+import { API_ORIGIN } from '../config'
 
 // Inline placeholder, so a missing photo never depends on an external site.
 export const PLACEHOLDER_IMAGE =

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { firstImage, PLACEHOLDER_IMAGE } from '../../utils/images'
 import './MyListings.css'
 
-const API_BASE_URL = 'http://localhost:5001/api'
+import { API_BASE_URL } from '../../config'
 
 const formatPrice = (price) =>
   new Intl.NumberFormat('en-IN', {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const API_BASE_URL = 'http://localhost:5001/api'
+import { API_BASE_URL } from '../config'
 
 // Fetches available phones from the backend. `query` is a URLSearchParams-style string.
 export function useLivePhones(query) {

@@ -3,7 +3,7 @@ import { imageUrl, PLACEHOLDER_IMAGE } from '../utils/images'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import './PhoneDetails.css'
 
-const API_BASE_URL = 'http://localhost:5001/api'
+import { API_BASE_URL } from '../config'
 
 function PhoneDetails() {
   const { id } = useParams()

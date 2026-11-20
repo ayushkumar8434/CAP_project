@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import PhoneCard from '../components/PhoneCard'
 import './PhoneListing.css'
 
-const API_BASE_URL = 'http://localhost:5001/api'
+import { API_BASE_URL } from '../config'
 
 function PhoneListing() {
   const [searchParams, setSearchParams] = useSearchParams()

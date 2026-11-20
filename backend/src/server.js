@@ -14,7 +14,14 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors());
+// In production set CLIENT_URL to the frontend origin(s), comma separated.
+const allowedOrigins = (process.env.CLIENT_URL || "")
+  .split(",")
+  .map((o) => o.trim().replace(/\/$/, ""))
+  .filter(Boolean);
+app.use(
+  cors(allowedOrigins.length ? { origin: allowedOrigins } : undefined)
+);
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
