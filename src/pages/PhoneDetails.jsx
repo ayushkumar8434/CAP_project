@@ -5,6 +5,16 @@ import './PhoneDetails.css'
 
 const API_BASE_URL = 'http://localhost:5001/api'
 
+const SPEC_LABELS = [
+  ['screen', 'Display'],
+  ['hardware', 'Memory & Chipset'],
+  ['camera', 'Camera'],
+  ['battery', 'Battery'],
+  ['colors', 'Colors'],
+  ['weight', 'Weight'],
+  ['release', 'Released'],
+]
+
 function PhoneDetails() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -228,6 +238,19 @@ function PhoneDetails() {
               </div>
             )}
 
+            {phone.specs && Object.keys(phone.specs).length > 0 && (
+              <div className="phone-details-techspecs">
+                <h2>Specifications</h2>
+                <dl>
+                  {SPEC_LABELS.filter(([key]) => phone.specs[key]).map(([key, label]) => (
+                    <div key={key}>
+                      <dt>{label}</dt>
+                      <dd>{phone.specs[key]}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
             {phone.seller && (
               <div className="phone-details-seller">
                 <h2>Seller Information</h2>

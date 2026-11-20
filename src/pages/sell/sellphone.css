@@ -279,3 +279,13 @@
 .sell-photo { position: relative; width: 96px; height: 120px; border-radius: 10px; overflow: hidden; border: 1px solid #e5e7eb; }
 .sell-photo img { width: 100%; height: 100%; object-fit: cover; }
 .sell-photo button { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border: 0; border-radius: 50%; background: rgba(17, 24, 39, 0.75); color: #fff; font-size: 14px; line-height: 1; cursor: pointer; }
+
+.sell-lookup-row { display: flex; gap: 10px; }
+.sell-lookup-row .sell-form-input { flex: 1; }
+.sell-lookup-results { margin: 10px 0 0; padding: 0; list-style: none; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; max-height: 320px; overflow-y: auto; }
+.sell-lookup-results li + li { border-top: 1px solid #f3f4f6; }
+.sell-lookup-results button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px; border: 0; background: transparent; text-align: left; cursor: pointer; font: inherit; color: #111827; }
+.sell-lookup-results button:hover { background: #f0fdf4; }
+.sell-lookup-results img { width: 37px; height: 50px; object-fit: contain; }
+.sell-lookup-results span { display: flex; flex-direction: column; }
+.sell-lookup-results small { color: #6b7280; font-size: 12px; }

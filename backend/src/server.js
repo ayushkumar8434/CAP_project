@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import deviceRoutes from "./routes/deviceRoutes.js";
 import uploadRoutes, { UPLOAD_DIR } from "./routes/uploadRoutes.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/phones", searchRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/uploads", uploadRoutes);
+app.use("/api/devices", deviceRoutes);
 app.use("/uploads", express.static(UPLOAD_DIR));
 
 // Test route
