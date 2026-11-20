@@ -68,7 +68,6 @@
 }
 
 .brand-image {
-<<<<<<< HEAD
   display: grid;
   width: 60px;
   height: 60px;
@@ -80,22 +79,6 @@
   font-size: 21px;
   font-weight: 700;
   letter-spacing: -0.5px;
-=======
-  width: 100px;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #fff;
-  border-radius: 12px;
-}
-
-.brand-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
->>>>>>> 7b9301d (pages)
 }
 
 .brand-name {
