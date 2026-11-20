@@ -311,3 +311,8 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+.phone-details-thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.phone-details-thumb { width: 64px; height: 80px; padding: 0; border: 2px solid transparent; border-radius: 8px; overflow: hidden; background: #fff; cursor: pointer; }
+.phone-details-thumb.is-active { border-color: #16a34a; }
+.phone-details-thumb img { width: 100%; height: 100%; object-fit: cover; }

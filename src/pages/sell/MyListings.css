@@ -50,3 +50,4 @@
   .mylist-card { flex-direction: column; }
   .mylist-thumb { flex-basis: auto; width: 100%; height: 80px; }
 }
+.mylist-thumb { object-fit: cover; }

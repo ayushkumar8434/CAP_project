@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { firstImage, PLACEHOLDER_IMAGE } from '../../utils/images'
 import './MyListings.css'
 
 const API_BASE_URL = 'http://localhost:5001/api'
@@ -116,7 +117,7 @@ function MyListings() {
         <div className="mylist-grid">
           {phones.map((p) => (
             <article key={p._id} className={`mylist-card${p.status === 'sold' ? ' is-sold' : ''}`}>
-              <div className="mylist-thumb" aria-hidden="true">📱</div>
+              <img className="mylist-thumb" src={firstImage(p)} alt="" onError={(e) => { e.currentTarget.src = PLACEHOLDER_IMAGE }} />
               <div className="mylist-body">
                 <div className="mylist-top">
                   <div>

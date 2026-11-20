@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { imageUrl, PLACEHOLDER_IMAGE } from '../utils/images'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import './PhoneDetails.css'
 
@@ -11,6 +12,7 @@ function PhoneDetails() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [cartVersion, setCartVersion] = useState(0)
+  const [activeImage, setActiveImage] = useState(0)
   const addedToCart = useMemo(
     () => JSON.parse(localStorage.getItem('cart') || '[]').some((item) => item._id === id),
     // cartVersion changes whenever this page adds to the cart
@@ -150,10 +152,7 @@ function PhoneDetails() {
     return null
   }
 
-  const phoneImage =
-    phone.images && phone.images.length > 0
-      ? phone.images[0]
-      : `https://placehold.co/600x750/dcfce7/16a34a?text=${encodeURIComponent(phone.brand)}`
+  const phoneImage = imageUrl(phone.images?.[activeImage] ?? phone.images?.[0])
 
   return (
     <main className="phone-details-page">
@@ -170,8 +169,24 @@ function PhoneDetails() {
                 src={phoneImage}
                 alt={phone.title}
                 className="phone-details-image"
+                onError={(e) => { e.currentTarget.src = PLACEHOLDER_IMAGE }}
               />
             </div>
+            {phone.images?.length > 1 && (
+              <div className="phone-details-thumbs">
+                {phone.images.map((img, i) => (
+                  <button
+                    type="button"
+                    key={img}
+                    className={`phone-details-thumb${i === activeImage ? ' is-active' : ''}`}
+                    onClick={() => setActiveImage(i)}
+                    aria-label={`Show photo ${i + 1}`}
+                  >
+                    <img src={imageUrl(img)} alt="" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Info Section */}

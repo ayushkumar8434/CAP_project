@@ -22,6 +22,7 @@ function SellPhone() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [photos, setPhotos] = useState([])
   const [validationErrors, setValidationErrors] = useState({})
 
   // Enum values from backend
@@ -72,6 +73,33 @@ function SellPhone() {
   }
 
   // Submit form
+  const handlePhotos = (e) => {
+    const picked = Array.from(e.target.files || [])
+    e.target.value = ''
+    const allowed = ['image/jpeg', 'image/png', 'image/webp']
+    const bad = picked.find((f) => !allowed.includes(f.type) || f.size > 5 * 1024 * 1024)
+    if (bad) {
+      setError('Photos must be JPG, PNG or WEBP, up to 5MB each.')
+      return
+    }
+    if (photos.length + picked.length > 4) {
+      setError('You can add up to 4 photos.')
+      return
+    }
+    setError('')
+    setPhotos((prev) => [
+      ...prev,
+      ...picked.map((file) => ({ file, preview: URL.createObjectURL(file) })),
+    ])
+  }
+
+  const removePhoto = (index) => {
+    setPhotos((prev) => {
+      URL.revokeObjectURL(prev[index].preview)
+      return prev.filter((_, i) => i !== index)
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
@@ -95,6 +123,23 @@ function SellPhone() {
     setLoading(true)
 
     try {
+      let imageUrls = []
+      if (photos.length > 0) {
+        const body = new FormData()
+        photos.forEach((p) => body.append('images', p.file))
+        const uploadRes = await fetch(`${API_BASE_URL}/uploads`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body,
+        })
+        const uploadData = await uploadRes.json()
+        if (!uploadRes.ok || !uploadData.success) {
+          setError(uploadData.message || 'Photo upload failed. Please try again.')
+          setLoading(false)
+          return
+        }
+        imageUrls = uploadData.urls
+      }
       const response = await fetch(`${API_BASE_URL}/phones`, {
         method: 'POST',
         headers: {
@@ -109,7 +154,7 @@ function SellPhone() {
           condition: formData.condition,
           storage: formData.storage,
           description: formData.description.trim() || undefined,
-          images: [], // Empty array as per backend model
+          images: imageUrls,
         }),
       })
 
@@ -117,6 +162,8 @@ function SellPhone() {
 
       if (response.ok && data.success) {
         setSuccess(true)
+        photos.forEach((p) => URL.revokeObjectURL(p.preview))
+        setPhotos([])
         // Reset form
         setFormData({
           title: '',
@@ -330,6 +377,39 @@ function SellPhone() {
               )}
             </div>
 
+            {/* Photos */}
+            <div className="sell-form-field">
+              <label htmlFor="photos" className="sell-form-label">
+                Photos (Optional, up to 4)
+              </label>
+              <input
+                id="photos"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                className="sell-form-input"
+                onChange={handlePhotos}
+                disabled={loading || photos.length >= 4}
+              />
+              {photos.length > 0 && (
+                <div className="sell-photo-grid">
+                  {photos.map((p, i) => (
+                    <div key={p.preview} className="sell-photo">
+                      <img src={p.preview} alt={`Selected photo ${i + 1}`} />
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(i)}
+                        disabled={loading}
+                        aria-label={`Remove photo ${i + 1}`}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <p className="sell-form-hint">JPG, PNG or WEBP, up to 5MB each. The first photo is the cover.</p>
+            </div>
             {/* Description */}
             <div className="sell-form-field">
               <label htmlFor="description" className="sell-form-label">

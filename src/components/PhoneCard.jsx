@@ -1,5 +1,6 @@
 import './PhoneCard.css'
 import { Link } from 'react-router-dom'
+import { firstImage, PLACEHOLDER_IMAGE } from '../utils/images'
 
 function PhoneCard({ phone }) {
   const formatPrice = (price) => {
@@ -20,10 +21,7 @@ function PhoneCard({ phone }) {
     return conditionMap[condition] || 'good'
   }
 
-  // Use placeholder if no image available
-  const phoneImage = phone.images && phone.images.length > 0
-    ? phone.images[0]
-    : `https://placehold.co/400x500/dcfce7/16a34a?text=${encodeURIComponent(phone.brand)}`
+  const phoneImage = firstImage(phone)
 
   return (
     <article className="phone-card">
@@ -33,6 +31,7 @@ function PhoneCard({ phone }) {
           alt={phone.title}
           className="phone-card-image"
           loading="lazy"
+          onError={(e) => { e.currentTarget.src = PLACEHOLDER_IMAGE }}
         />
         <span className={`phone-card-condition ${getConditionClass(phone.condition)}`}>
           {phone.condition}
