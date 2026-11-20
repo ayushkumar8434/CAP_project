@@ -27,7 +27,7 @@ function Hero() {
 
           <div className="hero-buttons">
 
-            <Link to="/#popular-phones" className="hero-button np-button np-button--primary">
+            <Link to="/phones" className="hero-button np-button np-button--primary">
               Browse Phones
             </Link>
 

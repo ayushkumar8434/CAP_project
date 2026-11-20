@@ -1,13 +1,18 @@
 import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Login.css'
 
+const API_BASE_URL = 'http://localhost:5001/api'
+
 function Login() {
+  const navigate = useNavigate()
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [feedback, setFeedback] = useState('')
+  const [loading, setLoading] = useState(false)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
 
     const form = event.currentTarget
@@ -27,9 +32,42 @@ function Login() {
       return
     }
 
-    setFeedback(
-      "Login isn't available just yet. Authentication is still being set up, and your details haven't been sent or saved.",
-    )
+    setLoading(true)
+    setFeedback('')
+
+    const email = emailRef.current.value
+    const password = passwordRef.current.value
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success && data.token) {
+        // Save token to localStorage
+        localStorage.setItem('authToken', data.token)
+        localStorage.setItem('user', JSON.stringify(data.user))
+
+        setFeedback('Login successful! Redirecting...')
+        
+        // Redirect to home page after short delay
+        setTimeout(() => {
+          navigate('/')
+        }, 1000)
+      } else {
+        setFeedback(data.message || 'Login failed. Please check your credentials.')
+      }
+    } catch (error) {
+      setFeedback('Network error. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -86,6 +124,7 @@ function Login() {
                   ref={emailRef}
                   required
                   type="email"
+                  disabled={loading}
                 />
               </div>
 
@@ -103,6 +142,7 @@ function Login() {
                     ref={passwordRef}
                     required
                     type={passwordVisible ? 'text' : 'password'}
+                    disabled={loading}
                   />
                   <button
                     aria-label={passwordVisible ? 'Hide password' : 'Show password'}
@@ -110,6 +150,7 @@ function Login() {
                     className="login-password-toggle"
                     onClick={() => setPasswordVisible((visible) => !visible)}
                     type="button"
+                    disabled={loading}
                   >
                     {passwordVisible ? 'Hide' : 'Show'}
                   </button>
@@ -117,12 +158,12 @@ function Login() {
               </div>
 
               <label className="login-remember">
-                <input name="remember" type="checkbox" />
+                <input name="remember" type="checkbox" disabled={loading} />
                 <span>Remember me</span>
               </label>
 
-              <button className="login-submit" type="submit">
-                Login <span aria-hidden="true">&rarr;</span>
+              <button className="login-submit" type="submit" disabled={loading}>
+                {loading ? 'Logging in...' : 'Login'} <span aria-hidden="true">&rarr;</span>
               </button>
 
               <p className="login-feedback" aria-live="polite" role="status">

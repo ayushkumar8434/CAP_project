@@ -7,7 +7,7 @@
 
 .sell-page-inner {
 	width: 100%;
-	max-width: 1040px;
+	max-width: 800px;
 	margin: 0 auto;
 	padding: 36px 32px 88px;
 }
@@ -24,11 +24,8 @@
 }
 
 .sell-page-header {
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 24px;
-	margin-top: 44px;
+	margin-top: 32px;
+	margin-bottom: 32px;
 }
 
 .sell-eyebrow {
@@ -41,479 +38,239 @@
 .sell-page-title {
 	margin: 10px 0 12px;
 	color: #0b3d2e;
-	font-size: 42px;
+	font-size: 36px;
 	font-weight: 700;
 	letter-spacing: 0;
 	line-height: 1.15;
 }
 
-.sell-page-description,
-.sell-section-heading p,
-.sell-next-step > p:not(.sell-eyebrow) {
+.sell-page-description {
 	color: #6b7280;
 	font-size: 15px;
 	line-height: 1.6;
 }
 
-.sell-step-count {
-	flex-shrink: 0;
-	padding-bottom: 6px;
-	color: #6b7280;
-	font-size: 12px;
-	font-weight: 700;
-	letter-spacing: 1px;
-}
-
-.sell-progress {
-	height: 4px;
-	margin: 32px 0 48px;
-	overflow: hidden;
-	background: #e5e7eb;
-	border-radius: 4px;
-}
-
-.sell-progress span {
-	display: block;
-	height: 100%;
-	background: #16a34a;
-	border-radius: inherit;
-	transition: width 180ms ease;
-}
-
-.sell-brand-step {
-	width: 100%;
-}
-
-.sell-section-heading h2,
-.sell-next-step h2 {
-	margin: 0 0 8px;
-	color: #0b3d2e;
-	font-size: 24px;
-	font-weight: 700;
-}
-
-.sell-brand-grid {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 12px;
-	margin-top: 24px;
-}
-
-.sell-brand-option {
+/* Messages */
+.sell-message {
 	display: flex;
-	min-width: 0;
-	min-height: 72px;
-	align-items: center;
-	gap: 14px;
-	padding: 12px 16px;
-	border: 1px solid #e5e7eb;
-	border-radius: 6px;
-	background: #fff;
-	color: #111827;
-	font: inherit;
-	font-size: 15px;
-	font-weight: 600;
-	text-align: left;
-	cursor: pointer;
-	transition: border-color 150ms ease, background-color 150ms ease;
-}
-
-.sell-brand-option:hover {
-	border-color: #86efac;
-}
-
-.sell-brand-option.is-selected {
-	border-color: #16a34a;
-	background: #f0fdf4;
-	color: #0b3d2e;
-}
-
-.sell-model-grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 12px;
-	margin-top: 24px;
-}
-
-.sell-model-option {
-	display: flex;
-	min-width: 0;
-	min-height: 68px;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	padding: 12px 16px;
-	border: 1px solid #e5e7eb;
-	border-radius: 6px;
-	background: #fff;
-	color: #111827;
-	font: inherit;
-	font-size: 14px;
-	font-weight: 600;
-	text-align: left;
-	cursor: pointer;
-	transition: border-color 150ms ease, background-color 150ms ease;
-}
-
-.sell-model-option:hover {
-	border-color: #86efac;
-}
-
-.sell-model-option.is-selected {
-	border-color: #16a34a;
-	background: #f0fdf4;
-	color: #0b3d2e;
-}
-
-.sell-model-indicator {
-	flex: 0 0 auto;
-	color: #15803d;
-	font-size: 12px;
-}
-
-.sell-condition-grid {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 12px;
-	margin-top: 24px;
-}
-
-.sell-condition-option {
-	display: flex;
-	min-width: 0;
-	min-height: 108px;
-	flex-direction: column;
 	align-items: flex-start;
-	justify-content: center;
-	gap: 8px;
-	padding: 16px;
-	border: 1px solid #e5e7eb;
-	border-radius: 6px;
-	background: #fff;
-	text-align: left;
-	cursor: pointer;
-	transition: border-color 150ms ease, background-color 150ms ease;
+	gap: 12px;
+	padding: 16px 20px;
+	border-radius: 8px;
+	margin-bottom: 24px;
 }
 
-.sell-condition-option:hover {
-	border-color: #86efac;
-}
-
-.sell-condition-option.is-selected {
-	border-color: #16a34a;
+.sell-message-success {
+	border: 1px solid #86efac;
 	background: #f0fdf4;
 }
 
-.sell-condition-name {
-	color: #111827;
-	font-size: 15px;
-	font-weight: 600;
+.sell-message-error {
+	border: 1px solid #fca5a5;
+	background: #fef2f2;
 }
 
-.sell-condition-option.is-selected .sell-condition-name {
+.sell-message-icon {
+	display: grid;
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+	place-items: center;
+	border-radius: 50%;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.sell-message-success .sell-message-icon {
+	background: #86efac;
+	color: #15803d;
+}
+
+.sell-message-error .sell-message-icon {
+	background: #fca5a5;
+	color: #dc2626;
+}
+
+.sell-message h3 {
+	margin: 0 0 4px;
 	color: #0b3d2e;
+	font-size: 16px;
+	font-weight: 700;
 }
 
-.sell-condition-description {
+.sell-message p {
+	margin: 0;
 	color: #6b7280;
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1.5;
 }
 
-.sell-brand-initial {
-	display: grid;
-	width: 40px;
-	height: 40px;
-	flex: 0 0 40px;
-	place-items: center;
-	border-radius: 6px;
-	background: #dcfce7;
-	color: #15803d;
-	font-size: 17px;
+/* Form */
+.sell-form {
+	width: 100%;
+}
+
+.sell-form-section {
+	padding: 32px;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	background: #fff;
+	margin-bottom: 24px;
+}
+
+.sell-form-section-title {
+	margin: 0 0 24px;
+	color: #0b3d2e;
+	font-size: 20px;
 	font-weight: 700;
 }
 
-.sell-step-footer {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 20px;
-	margin-top: 28px;
-	padding-top: 20px;
-	border-top: 1px solid #e5e7eb;
+.sell-form-field {
+	margin-bottom: 20px;
 }
 
-.sell-step-footer p {
-	color: #6b7280;
-	font-size: 14px;
+.sell-form-field:last-child {
+	margin-bottom: 0;
 }
 
-.sell-next-button,
-.sell-back-button {
-	min-height: 44px;
-	padding: 0 20px;
-	border: 0;
-	border-radius: 6px;
-	background: #16a34a;
-	color: #fff;
-	font: inherit;
+.sell-form-label {
+	display: block;
+	margin-bottom: 8px;
+	color: #111827;
 	font-size: 14px;
 	font-weight: 600;
-	cursor: pointer;
 }
 
-.sell-next-button:hover:not(:disabled) {
-	background: #0b3d2e;
+.sell-form-required {
+	color: #dc2626;
 }
 
-.sell-next-button:disabled {
-	background: #d1d5db;
-	color: #6b7280;
+.sell-form-input {
+	width: 100%;
+	padding: 12px 16px;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: #fff;
+	color: #111827;
+	font: inherit;
+	font-size: 15px;
+	transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.sell-form-input:focus {
+	outline: none;
+	border-color: #16a34a;
+	box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+.sell-form-input:disabled {
+	background: #f9fafb;
+	color: #9ca3af;
 	cursor: not-allowed;
 }
 
-.sell-next-step {
-	padding: 28px 0;
+.sell-form-input.error {
+	border-color: #dc2626;
 }
 
-.sell-next-step h2 {
-	margin-top: 12px;
+.sell-form-input.error:focus {
+	border-color: #dc2626;
+	box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
 }
 
-.sell-back-button {
-	margin-top: 24px;
-	background: #0b3d2e;
+.sell-form-textarea {
+	resize: vertical;
+	min-height: 100px;
 }
 
-.sell-step-footer .sell-back-button {
-	margin-top: 0;
-	border: 1px solid #d1d5db;
-	background: #fff;
-	color: #0b3d2e;
-}
-
-.sell-photo-upload-area {
-	margin-top: 24px;
-}
-
-.sell-photo-upload {
-	display: flex;
-	min-height: 180px;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	gap: 8px;
-	border: 1px dashed #9ca3af;
-	border-radius: 8px;
-	background: #fff;
-	color: #0b3d2e;
-	font-size: 15px;
-	font-weight: 600;
-	cursor: pointer;
-}
-
-.sell-photo-upload:hover {
-	border-color: #16a34a;
-	background: #f0fdf4;
-}
-
-.sell-photo-upload input {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	clip-path: inset(50%);
-}
-
-.sell-photo-upload:focus-within {
-	outline: 2px solid #16a34a;
-	outline-offset: 3px;
-}
-
-.sell-photo-upload-icon {
-	display: grid;
-	width: 40px;
-	height: 40px;
-	place-items: center;
-	border-radius: 50%;
-	background: #dcfce7;
-	color: #15803d;
-	font-size: 24px;
-	font-weight: 400;
-}
-
-.sell-photo-upload-hint,
-.sell-photo-count {
-	color: #6b7280;
-	font-size: 13px;
-	font-weight: 400;
-}
-
-.sell-photo-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-	gap: 12px;
-	margin-top: 16px;
-}
-
-.sell-photo-preview {
-	min-width: 0;
-	margin: 0;
-	overflow: hidden;
-	border: 1px solid #e5e7eb;
-	border-radius: 6px;
-	background: #fff;
-}
-
-.sell-photo-preview img {
+.sell-form-error {
 	display: block;
-	width: 100%;
-	height: 130px;
-	object-fit: cover;
-}
-
-.sell-photo-preview figcaption {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 8px;
-	padding: 8px;
-	font-size: 12px;
-}
-
-.sell-photo-preview figcaption span {
-	overflow: hidden;
-	color: #374151;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.sell-photo-preview figcaption button {
-	flex: 0 0 auto;
-	padding: 0;
-	border: 0;
-	background: transparent;
-	color: #b91c1c;
-	font: inherit;
-	cursor: pointer;
-}
-
-.sell-photo-count {
-	margin-top: 12px;
-}
-
-.sell-photo-error {
-	margin-top: 8px;
-	color: #b91c1c;
+	margin-top: 6px;
+	color: #dc2626;
 	font-size: 13px;
 }
 
-.sell-result > h2 {
-	margin: 12px 0 8px;
-	color: #0b3d2e;
-	font-size: 24px;
-}
-
-.sell-result-details {
-	margin: 24px 0 0;
-	border-top: 1px solid #e5e7eb;
-}
-
-.sell-result-detail {
-	display: flex;
-	justify-content: space-between;
-	gap: 20px;
-	padding: 14px 0;
-	border-bottom: 1px solid #e5e7eb;
-	font-size: 14px;
-}
-
-.sell-result-detail dt {
-	color: #6b7280;
-}
-
-.sell-result-detail dd {
-	margin: 0;
-	color: #111827;
-	font-weight: 600;
-	text-align: right;
-}
-
-.sell-result-note {
-	margin-top: 20px;
-	padding: 12px 14px;
-	border-radius: 6px;
-	background: #f3f4f6;
-	color: #4b5563;
+.sell-form-hint {
+	margin-top: 6px;
+	color: #9ca3af;
 	font-size: 13px;
 	line-height: 1.5;
 }
 
-.sell-result-actions {
-	display: flex;
-	justify-content: space-between;
-	gap: 12px;
-	margin-top: 24px;
+/* Submit */
+.sell-form-footer {
+	text-align: center;
+	padding: 24px 32px;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	background: #fff;
 }
 
-.sell-result-actions .sell-back-button {
-	margin-top: 0;
+.sell-submit-button {
+	width: 100%;
+	max-width: 300px;
+	min-height: 52px;
+	font-size: 16px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
 }
 
-@media (max-width: 700px) {
+.sell-submit-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.sell-spinner {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	border-top-color: #fff;
+	border-radius: 50%;
+	animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.sell-form-note {
+	margin-top: 12px;
+	color: #9ca3af;
+	font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
 	.sell-page-inner {
 		padding: 28px 20px 64px;
 	}
 
-	.sell-page-header {
-		align-items: flex-start;
-		flex-direction: column;
-		gap: 12px;
-		margin-top: 32px;
-	}
-
 	.sell-page-title {
-		font-size: 34px;
+		font-size: 28px;
 	}
 
-	.sell-progress {
-		margin: 24px 0 36px;
+	.sell-form-section {
+		padding: 24px 20px;
 	}
 
-	.sell-brand-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+	.sell-form-footer {
+		padding: 20px;
 	}
 
-	.sell-model-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.sell-photo-grid {
-		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	.sell-submit-button {
+		max-width: 100%;
 	}
 }
 
-@media (max-width: 420px) {
-	.sell-brand-grid {
-		grid-template-columns: 1fr;
-	}
-
-	.sell-model-grid {
-		grid-template-columns: 1fr;
-	}
-
-	.sell-condition-grid {
-		grid-template-columns: 1fr;
-	}
-
-	.sell-step-footer {
-		align-items: stretch;
-		flex-direction: column;
-	}
-
-	.sell-result-actions {
-		flex-direction: column;
+@media (prefers-reduced-motion: reduce) {
+	.sell-form-input,
+	.sell-spinner {
+		transition: none;
+		animation: none;
 	}
 }

@@ -18,6 +18,8 @@ import GoodDeal from './components/GoodDeal'
 import NewPhoneJournal from './components/NewPhoneJournal'
 import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
+import PhoneListing from './pages/PhoneListing'
+import PhoneDetails from './pages/PhoneDetails'
 
 function ScrollToHash() {
   const { pathname, hash } = useLocation()
@@ -85,6 +87,8 @@ function AppContent() {
       <ScrollToHash />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/phones" element={<PhoneListing />} />
+        <Route path="/phones/:id" element={<PhoneDetails />} />
         <Route path="/sell" element={<SellPhone />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />

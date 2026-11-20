@@ -1,0 +1,651 @@
+{
+  "info": {
+    "name": "PocketPhone - Search, Filter, Sort & Pagination",
+    "description": "API collection for testing Member 2's search functionality",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Search by iPhone",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones/search?q=iphone",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "iphone"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search by Samsung",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones/search?q=Samsung",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Samsung"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Case-Insensitive Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones/search?q=APPLE",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "APPLE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "No Results",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones/search?q=NonExistentPhone123",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "NonExistentPhone123"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filters",
+      "item": [
+        {
+          "name": "Filter by Brand - Samsung",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?brand=Samsung",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "brand",
+                  "value": "Samsung"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Minimum Price",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?minPrice=50000",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "50000"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Maximum Price",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?maxPrice=40000",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "maxPrice",
+                  "value": "40000"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Price Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?minPrice=30000&maxPrice=70000",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "30000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "70000"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Condition - Excellent",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?condition=Excellent",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "condition",
+                  "value": "Excellent"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Storage - 256GB",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?storage=256GB",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "storage",
+                  "value": "256GB"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Multiple Filters Combined",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?brand=Samsung&minPrice=30000&maxPrice=70000&condition=Good&storage=128GB",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "brand",
+                  "value": "Samsung"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "30000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "70000"
+                },
+                {
+                  "key": "condition",
+                  "value": "Good"
+                },
+                {
+                  "key": "storage",
+                  "value": "128GB"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sorting",
+      "item": [
+        {
+          "name": "Sort Price Ascending",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?sort=price_asc",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "price_asc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sort Price Descending",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?sort=price_desc",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "price_desc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sort Newest First",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?sort=newest",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "newest"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pagination",
+      "item": [
+        {
+          "name": "Page 1 with Limit 5",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?page=1&limit=5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Page 2 with Limit 5",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?page=2&limit=5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Default Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Validation Tests",
+      "item": [
+        {
+          "name": "Invalid Page Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?page=-1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Invalid Limit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?limit=0",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "0"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Invalid Price - Negative",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?minPrice=-100",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "-100"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Invalid Price Range",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?minPrice=50000&maxPrice=30000",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "minPrice",
+                  "value": "50000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "30000"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Invalid Condition",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?condition=BrandNew",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "condition",
+                  "value": "BrandNew"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Invalid Storage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?storage=2TB",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "storage",
+                  "value": "2TB"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Invalid Sort Value",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?sort=invalid_sort",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "invalid_sort"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complex Queries",
+      "item": [
+        {
+          "name": "Search + Filter + Sort + Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones/search?q=iphone&minPrice=40000&maxPrice=80000&condition=Excellent&sort=price_asc&page=1&limit=5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "iphone"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "40000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "80000"
+                },
+                {
+                  "key": "condition",
+                  "value": "Excellent"
+                },
+                {
+                  "key": "sort",
+                  "value": "price_asc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "All Filters at Once",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/phones?brand=Apple&minPrice=30000&maxPrice=60000&condition=Good&storage=128GB&sort=price_desc&page=1&limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "phones"],
+              "query": [
+                {
+                  "key": "brand",
+                  "value": "Apple"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "30000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "60000"
+                },
+                {
+                  "key": "condition",
+                  "value": "Good"
+                },
+                {
+                  "key": "storage",
+                  "value": "128GB"
+                },
+                {
+                  "key": "sort",
+                  "value": "price_desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get All Phones (Available Only)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/phones",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "phones"]
+        }
+      }
+    }
+  ]
+}
