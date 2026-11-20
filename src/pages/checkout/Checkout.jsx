@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import './Checkout.css'
+
+const API_BASE_URL = 'http://localhost:5001/api'
 
 function Checkout() {
   const navigate = useNavigate()
+  const stripe = useStripe()
+  const elements = useElements()
+  
   const [cart, setCart] = useState([])
   const [formData, setFormData] = useState({
     fullName: '',
@@ -15,6 +21,7 @@ function Checkout() {
   })
   const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState('')
+  const [paymentProcessing, setPaymentProcessing] = useState(false)
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem('cart') || '[]')
@@ -48,35 +55,105 @@ function Checkout() {
     })
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     setFormError('')
-    setLoading(true)
 
     if (cart.length === 0) {
       navigate('/cart', { replace: true })
       return
     }
 
-    // Create demo order
-    const demoOrder = {
-      customer: formData,
-      items: cart,
-      total,
-      reference: `NP-${Date.now().toString().slice(-8)}`,
-      date: new Date().toISOString(),
+    if (!stripe || !elements) {
+      setFormError('Stripe is not loaded yet. Please wait.')
+      return
     }
 
+    setPaymentProcessing(true)
+    setLoading(true)
+
     try {
-      // Clear cart after order
-      localStorage.setItem('cart', JSON.stringify([]))
-      localStorage.setItem('lastOrder', JSON.stringify(demoOrder))
+      // Get auth token
+      const token = localStorage.getItem('authToken')
+      if (!token) {
+        setFormError('Please login to complete checkout.')
+        setLoading(false)
+        setPaymentProcessing(false)
+        setTimeout(() => navigate('/login'), 2000)
+        return
+      }
+
+      // Step 1: Create payment intent
+      const paymentIntentResponse = await fetch(`${API_BASE_URL}/payment/create-payment-intent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          amount: total * 100, // Convert to paise (smallest unit)
+          currency: 'inr',
+        }),
+      })
+
+      const paymentIntentData = await paymentIntentResponse.json()
+
+      if (!paymentIntentResponse.ok || !paymentIntentData.success) {
+        throw new Error(paymentIntentData.message || 'Failed to create payment')
+      }
+
+      // Step 2: Confirm payment with Stripe
+      const cardElement = elements.getElement(CardElement)
       
-      setTimeout(() => {
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        paymentIntentData.clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: formData.fullName,
+              email: formData.email,
+              phone: formData.phone,
+              address: {
+                line1: formData.address,
+                city: formData.city,
+                postal_code: formData.pincode,
+                country: 'IN',
+              },
+            },
+          },
+        }
+      )
+
+      if (error) {
+        throw new Error(error.message)
+      }
+
+      if (paymentIntent.status === 'succeeded') {
+        // Payment successful - create order
+        const demoOrder = {
+          customer: formData,
+          items: cart,
+          total,
+          reference: `NP-${Date.now().toString().slice(-8)}`,
+          date: new Date().toISOString(),
+          paymentStatus: 'paid',
+          paymentId: paymentIntent.id,
+        }
+
+        // Clear cart and save order
+        localStorage.setItem('cart', JSON.stringify([]))
+        localStorage.setItem('lastOrder', JSON.stringify(demoOrder))
+        
+        // Navigate to confirmation
         navigate('/order-confirmation', { state: { demoOrder } })
-      }, 1000)
+      } else {
+        throw new Error('Payment was not successful')
+      }
     } catch (error) {
-      setFormError('Could not complete checkout. Please try again.')
+      console.error('Payment error:', error)
+      setFormError(error.message || 'Payment failed. Please try again.')
+      setPaymentProcessing(false)
       setLoading(false)
     }
   }
@@ -98,6 +175,22 @@ function Checkout() {
     )
   }
 
+  const cardElementOptions = {
+    style: {
+      base: {
+        fontSize: '16px',
+        color: '#111827',
+        '::placeholder': {
+          color: '#9ca3af',
+        },
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+      },
+      invalid: {
+        color: '#dc2626',
+      },
+    },
+  }
+
   return (
     <main className="checkout-page">
       <div className="checkout-page-inner">
@@ -106,9 +199,9 @@ function Checkout() {
         </Link>
 
         <header className="checkout-header">
-          <p className="checkout-eyebrow">CHECKOUT</p>
-          <h1>Delivery Details</h1>
-          <p>Enter your delivery information to complete your order.</p>
+          <p className="checkout-eyebrow">SECURE CHECKOUT</p>
+          <h1>Payment Details</h1>
+          <p>Complete your order with secure Stripe payment.</p>
         </header>
 
         <div className="checkout-layout">
@@ -200,6 +293,19 @@ function Checkout() {
               </div>
             </div>
 
+            <div className="form-section">
+              <h2>Payment Information</h2>
+              <label>
+                Card Details <span className="required">*</span>
+                <div className="stripe-card-element">
+                  <CardElement options={cardElementOptions} />
+                </div>
+              </label>
+              <p className="payment-note">
+                🔒 Your payment is secured by Stripe. We never store your card details.
+              </p>
+            </div>
+
             {formError && (
               <div className="form-error" role="alert">
                 {formError}
@@ -209,10 +315,21 @@ function Checkout() {
             <button
               type="submit"
               className="np-button np-button--primary checkout-submit-btn"
-              disabled={loading}
+              disabled={loading || !stripe}
             >
-              {loading ? 'Processing...' : `Place Order (${formatPrice(total)})`}
+              {paymentProcessing ? (
+                <>
+                  <span className="payment-spinner" />
+                  Processing Payment...
+                </>
+              ) : (
+                `Pay ${formatPrice(total)}`
+              )}
             </button>
+
+            <p className="test-card-note">
+              <strong>Test Card:</strong> 4242 4242 4242 4242 | Any future date | Any 3-digit CVC
+            </p>
           </form>
 
           <aside className="checkout-summary">
@@ -245,6 +362,14 @@ function Checkout() {
               <div className="checkout-total-row checkout-grand-total">
                 <span>Total</span>
                 <span>{formatPrice(total)}</span>
+              </div>
+            </div>
+
+            <div className="secure-payment-badge">
+              <span>🔒</span>
+              <div>
+                <strong>Secure Payment</strong>
+                <p>Powered by Stripe</p>
               </div>
             </div>
           </aside>
