@@ -539,3 +539,25 @@
     transition: none;
   }
 }
+
+/* Toggle link for signup/login */
+.login-toggle-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #16a34a;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.login-toggle-link:hover {
+  color: #0b3d2e;
+}
+
+.login-toggle-link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

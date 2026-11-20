@@ -6,9 +6,11 @@ const API_BASE_URL = 'http://localhost:5001/api'
 
 function Login() {
   const navigate = useNavigate()
+  const [isSignup, setIsSignup] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [feedback, setFeedback] = useState('')
   const [loading, setLoading] = useState(false)
+  const nameRef = useRef(null)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
 
@@ -19,13 +21,18 @@ function Login() {
     if (!form.checkValidity()) {
       const emailValidity = emailRef.current.validity
       const passwordValidity = passwordRef.current.validity
+      const nameValidity = isSignup ? nameRef.current.validity : { valueMissing: false }
 
-      if (emailValidity.valueMissing) {
+      if (nameValidity.valueMissing) {
+        setFeedback('Please enter your name.')
+      } else if (emailValidity.valueMissing) {
         setFeedback('Please enter your email address.')
       } else if (emailValidity.typeMismatch) {
         setFeedback('Please enter a valid email address.')
       } else if (passwordValidity.valueMissing) {
         setFeedback('Please enter your password.')
+      } else if (isSignup && passwordRef.current.value.length < 6) {
+        setFeedback('Password must be at least 6 characters long.')
       }
 
       form.reportValidity()
@@ -37,31 +44,40 @@ function Login() {
 
     const email = emailRef.current.value
     const password = passwordRef.current.value
+    const name = isSignup ? nameRef.current.value : undefined
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const endpoint = isSignup ? '/auth/register' : '/auth/login'
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(isSignup ? { name, email, password } : { email, password }),
       })
 
       const data = await response.json()
 
-      if (response.ok && data.success && data.token) {
-        // Save token to localStorage
-        localStorage.setItem('authToken', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
+      if (response.ok && data.success) {
+        if (isSignup) {
+          // After signup, switch to login or auto-login
+          setFeedback('Account created successfully! Please login.')
+          setIsSignup(false)
+          // Clear password field
+          passwordRef.current.value = ''
+        } else if (data.token) {
+          // Login successful
+          localStorage.setItem('authToken', data.token)
+          localStorage.setItem('user', JSON.stringify(data.user))
 
-        setFeedback('Login successful! Redirecting...')
-        
-        // Redirect to home page after short delay
-        setTimeout(() => {
-          navigate('/')
-        }, 1000)
+          setFeedback('Login successful! Redirecting...')
+          
+          setTimeout(() => {
+            navigate('/')
+          }, 1000)
+        }
       } else {
-        setFeedback(data.message || 'Login failed. Please check your credentials.')
+        setFeedback(data.message || `${isSignup ? 'Signup' : 'Login'} failed. Please try again.`)
       }
     } catch (error) {
       setFeedback('Network error. Please check your connection and try again.')
@@ -108,12 +124,28 @@ function Login() {
         <div className="login-form-side">
           <div className="login-card">
             <div className="login-card-heading">
-              <p className="login-card-kicker">GOOD TO HAVE YOU BACK</p>
-              <h2>Welcome Back!</h2>
-              <p>Login to continue your NewPhone journey.</p>
+              <p className="login-card-kicker">{isSignup ? 'JOIN NEWPHONE' : 'GOOD TO HAVE YOU BACK'}</p>
+              <h2>{isSignup ? 'Create Account' : 'Welcome Back!'}</h2>
+              <p>{isSignup ? 'Sign up to start your NewPhone journey.' : 'Login to continue your NewPhone journey.'}</p>
             </div>
 
             <form className="login-form" onSubmit={handleSubmit} noValidate>
+              {isSignup && (
+                <div className="login-field">
+                  <label htmlFor="login-name">Full Name</label>
+                  <input
+                    autoComplete="name"
+                    id="login-name"
+                    name="name"
+                    placeholder="Your full name"
+                    ref={nameRef}
+                    required
+                    type="text"
+                    disabled={loading}
+                  />
+                </div>
+              )}
+
               <div className="login-field">
                 <label htmlFor="login-email">Email address</label>
                 <input
@@ -131,16 +163,19 @@ function Login() {
               <div className="login-field">
                 <div className="login-password-label">
                   <label htmlFor="login-password">Password</label>
-                  <span className="login-coming-soon">Forgot password? <span>Coming soon</span></span>
+                  {!isSignup && (
+                    <span className="login-coming-soon">Forgot password? <span>Coming soon</span></span>
+                  )}
                 </div>
                 <div className="login-password-input">
                   <input
-                    autoComplete="current-password"
+                    autoComplete={isSignup ? 'new-password' : 'current-password'}
                     id="login-password"
                     name="password"
-                    placeholder="Enter your password"
+                    placeholder={isSignup ? 'At least 6 characters' : 'Enter your password'}
                     ref={passwordRef}
                     required
+                    minLength={isSignup ? 6 : undefined}
                     type={passwordVisible ? 'text' : 'password'}
                     disabled={loading}
                   />
@@ -157,13 +192,15 @@ function Login() {
                 </div>
               </div>
 
-              <label className="login-remember">
-                <input name="remember" type="checkbox" disabled={loading} />
-                <span>Remember me</span>
-              </label>
+              {!isSignup && (
+                <label className="login-remember">
+                  <input name="remember" type="checkbox" disabled={loading} />
+                  <span>Remember me</span>
+                </label>
+              )}
 
               <button className="login-submit" type="submit" disabled={loading}>
-                {loading ? 'Logging in...' : 'Login'} <span aria-hidden="true">&rarr;</span>
+                {loading ? (isSignup ? 'Creating account...' : 'Logging in...') : (isSignup ? 'Sign Up' : 'Login')} <span aria-hidden="true">&rarr;</span>
               </button>
 
               <p className="login-feedback" aria-live="polite" role="status">
@@ -172,7 +209,37 @@ function Login() {
             </form>
 
             <p className="login-signup">
-              New to NewPhone? <span>Sign up <span className="login-coming-soon">Coming soon</span></span>
+              {isSignup ? (
+                <>
+                  Already have an account?{' '}
+                  <button 
+                    type="button" 
+                    className="login-toggle-link"
+                    onClick={() => {
+                      setIsSignup(false)
+                      setFeedback('')
+                    }}
+                    disabled={loading}
+                  >
+                    Login here
+                  </button>
+                </>
+              ) : (
+                <>
+                  New to NewPhone?{' '}
+                  <button 
+                    type="button"
+                    className="login-toggle-link"
+                    onClick={() => {
+                      setIsSignup(true)
+                      setFeedback('')
+                    }}
+                    disabled={loading}
+                  >
+                    Sign up
+                  </button>
+                </>
+              )}
             </p>
           </div>
 
