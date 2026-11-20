@@ -62,11 +62,6 @@ const phoneSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    // Optional specs picked from the device lookup (all plain strings)
-    specs: {
-      type: mongoose.Schema.Types.Mixed,
-      default: undefined,
-    },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

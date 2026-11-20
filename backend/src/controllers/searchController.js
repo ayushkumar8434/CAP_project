@@ -301,16 +301,6 @@ export const getPhoneById = async (req, res) => {
  * POST /api/phones
  * Requires authentication
  */
-const SPEC_KEYS = ["colors", "screen", "weight", "release", "camera", "battery", "hardware"];
-const cleanSpecs = (specs) => {
-  if (!specs || typeof specs !== "object" || Array.isArray(specs)) return undefined;
-  const out = {};
-  for (const key of SPEC_KEYS) {
-    if (typeof specs[key] === "string" && specs[key].trim()) out[key] = specs[key].trim().slice(0, 120);
-  }
-  return Object.keys(out).length ? out : undefined;
-};
-
 export const createPhone = async (req, res) => {
   try {
     const {
@@ -323,7 +313,6 @@ export const createPhone = async (req, res) => {
       status,
       description,
       images,
-      specs,
     } = req.body;
 
     // Validate required fields
@@ -393,7 +382,6 @@ export const createPhone = async (req, res) => {
       status: status || "available",
       description: description ? description.trim() : undefined,
       images: images || [],
-      specs: cleanSpecs(specs),
       seller,
     });
 

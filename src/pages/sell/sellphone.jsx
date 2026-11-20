@@ -23,12 +23,6 @@ function SellPhone() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [photos, setPhotos] = useState([])
-  // Device lookup (autofill from the phone database)
-  const [lookupQuery, setLookupQuery] = useState('')
-  const [lookupResults, setLookupResults] = useState([])
-  const [lookupLoading, setLookupLoading] = useState(false)
-  const [lookupMessage, setLookupMessage] = useState('')
-  const [pickedDevice, setPickedDevice] = useState(null)
   const [validationErrors, setValidationErrors] = useState({})
 
   // Enum values from backend
@@ -79,52 +73,6 @@ function SellPhone() {
   }
 
   // Submit form
-  const runLookup = async () => {
-    const name = lookupQuery.trim()
-    if (name.length < 3) {
-      setLookupMessage('Type at least 3 characters, e.g. "iPhone 13".')
-      return
-    }
-    setLookupLoading(true)
-    setLookupMessage('')
-    setLookupResults([])
-    try {
-      const token = localStorage.getItem('authToken')
-      const res = await fetch(`${API_BASE_URL}/devices/search?name=${encodeURIComponent(name)}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      const data = await res.json()
-      if (!res.ok || !data.success) {
-        setLookupMessage(data.message || 'Lookup failed. You can fill the form manually.')
-      } else if (data.devices.length === 0) {
-        setLookupMessage('No phones found. Try another name, or fill the form manually.')
-      } else {
-        setLookupResults(data.devices)
-      }
-    } catch {
-      setLookupMessage('Lookup failed. You can fill the form manually.')
-    } finally {
-      setLookupLoading(false)
-    }
-  }
-
-  const pickDevice = (device) => {
-    const storage = (device.storage || '')
-      .split(',')
-      .map((v) => v.trim())
-      .find((v) => storageOptions.includes(v))
-    const brand = brands.find((b) => b.toLowerCase() === (device.manufacturer || '').toLowerCase())
-    setPickedDevice(device)
-    setLookupResults([])
-    setFormData((prev) => ({
-      ...prev,
-      model: device.name,
-      title: prev.title || device.name,
-      brand: brand || prev.brand,
-      storage: storage || prev.storage,
-    }))
-  }
-
   const handlePhotos = (e) => {
     const picked = Array.from(e.target.files || [])
     e.target.value = ''
@@ -207,17 +155,6 @@ function SellPhone() {
           storage: formData.storage,
           description: formData.description.trim() || undefined,
           images: imageUrls,
-          specs: pickedDevice
-            ? {
-                colors: pickedDevice.colors,
-                screen: pickedDevice.screen,
-                weight: pickedDevice.weight,
-                release: pickedDevice.release,
-                camera: pickedDevice.camera,
-                battery: pickedDevice.battery,
-                hardware: pickedDevice.hardware,
-              }
-            : undefined,
         }),
       })
 
@@ -300,59 +237,6 @@ function SellPhone() {
           <div className="sell-form-section">
             <h2 className="sell-form-section-title">Phone Details</h2>
 
-            {/* Device lookup */}
-            <div className="sell-form-field sell-lookup">
-              <label htmlFor="lookup" className="sell-form-label">
-                Find your phone (optional)
-              </label>
-              <div className="sell-lookup-row">
-                <input
-                  id="lookup"
-                  type="text"
-                  className="sell-form-input"
-                  placeholder="e.g., iPhone 13, Pixel 9, Galaxy S24"
-                  value={lookupQuery}
-                  onChange={(e) => setLookupQuery(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault()
-                      runLookup()
-                    }
-                  }}
-                  disabled={loading}
-                />
-                <button
-                  type="button"
-                  className="np-button np-button--secondary"
-                  onClick={runLookup}
-                  disabled={lookupLoading || loading}
-                >
-                  {lookupLoading ? 'Searching...' : 'Search'}
-                </button>
-              </div>
-              {lookupMessage && <p className="sell-form-hint">{lookupMessage}</p>}
-              {lookupResults.length > 0 && (
-                <ul className="sell-lookup-results">
-                  {lookupResults.map((d) => (
-                    <li key={d.id}>
-                      <button type="button" onClick={() => pickDevice(d)}>
-                        {d.thumb && <img src={d.thumb} alt="" />}
-                        <span>
-                          <strong>{d.name}</strong>
-                          <small>{[d.storage, d.release].filter(Boolean).join(' • ')}</small>
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {pickedDevice && (
-                <p className="sell-form-hint">
-                  Selected: <strong>{pickedDevice.name}</strong>. Its specs will be shown on your listing.
-                </p>
-              )}
-              <p className="sell-form-hint">Picking a phone fills the brand, model and storage for you.</p>
-            </div>
             {/* Title */}
             <div className="sell-form-field">
               <label htmlFor="title" className="sell-form-label">
