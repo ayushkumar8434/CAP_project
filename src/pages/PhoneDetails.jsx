@@ -1,14 +1,57 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import './PhoneDetails.css'
 
 const API_BASE_URL = 'http://localhost:5001/api'
 
 function PhoneDetails() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [phone, setPhone] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [addedToCart, setAddedToCart] = useState(false)
+
+  // Check if already in cart
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    setAddedToCart(cart.some((item) => item._id === id))
+  }, [id])
+
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    
+    // Check if already in cart
+    if (cart.some((item) => item._id === phone._id)) {
+      setAddedToCart(true)
+      return
+    }
+
+    // Add phone to cart
+    cart.push(phone)
+    localStorage.setItem('cart', JSON.stringify(cart))
+    setAddedToCart(true)
+
+    // Show feedback
+    setTimeout(() => {
+      const goToCart = window.confirm('Added to cart! Go to cart now?')
+      if (goToCart) {
+        navigate('/cart')
+      }
+    }, 300)
+  }
+
+  const buyNow = () => {
+    // Add to cart and go directly to checkout
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    
+    if (!cart.some((item) => item._id === phone._id)) {
+      cart.push(phone)
+      localStorage.setItem('cart', JSON.stringify(cart))
+    }
+    
+    navigate('/checkout')
+  }
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-IN', {
@@ -177,15 +220,27 @@ function PhoneDetails() {
               <button
                 type="button"
                 className="np-button np-button--primary"
-                disabled
+                onClick={buyNow}
+                disabled={phone.status !== 'available'}
               >
-                Contact Seller (Coming Soon)
+                {phone.status === 'available' ? 'Buy Now' : 'Sold Out'}
               </button>
+              <button
+                type="button"
+                className="np-button np-button--secondary"
+                onClick={addToCart}
+                disabled={phone.status !== 'available' || addedToCart}
+              >
+                {addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+              </button>
+            </div>
+
+            <div className="phone-details-extra-actions">
               <Link
                 to="/phones"
-                className="np-button np-button--secondary"
+                className="continue-browsing-link"
               >
-                Continue Browsing
+                ← Continue Browsing
               </Link>
             </div>
           </div>

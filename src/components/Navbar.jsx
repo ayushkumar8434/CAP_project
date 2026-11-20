@@ -8,12 +8,16 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userName, setUserName] = useState('')
+  const [cartCount, setCartCount] = useState(0)
   const menuButtonRef = useRef(null)
 
-  // Check login status
+  // Check login status and cart count
   useEffect(() => {
     const token = localStorage.getItem('authToken')
     const user = localStorage.getItem('user')
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    
+    setCartCount(cart.length)
     
     if (token && user) {
       setIsLoggedIn(true)
@@ -92,6 +96,11 @@ function Navbar() {
       <div className="nav-links" id="primary-navigation">
         <Link to="/phones" onClick={closeMenu}>Buy Phones</Link>
         <Link to="/sell" onClick={closeMenu}>Sell Your Phone</Link>
+        
+        <Link to="/cart" className="nav-cart-link" onClick={closeMenu}>
+          🛒 Cart
+          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+        </Link>
         
         {isLoggedIn ? (
           <>

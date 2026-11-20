@@ -19,6 +19,9 @@ import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
 import PhoneListing from './pages/PhoneListing'
 import PhoneDetails from './pages/PhoneDetails'
+import Cart from './pages/cart/cart'
+import Checkout from './pages/checkout/Checkout'
+import OrderConfirmation from './pages/checkout/OrderConfirmation'
 
 function ScrollToHash() {
   const { pathname, hash } = useLocation()
@@ -80,6 +83,9 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/phones" element={<PhoneListing />} />
         <Route path="/phones/:id" element={<PhoneDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/sell" element={<SellPhone />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />

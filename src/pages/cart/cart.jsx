@@ -1,87 +1,106 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { formatPrice, products, readCart, saveCart } from '../../data/products'
 import './Cart.css'
 
 function Cart() {
   const navigate = useNavigate()
-  const [cart, setCart] = useState(readCart)
-  const cartProducts = cart
-    .map((item) => ({
-      ...item,
-      product: products.find((product) => product.id === item.id),
-    }))
-    .filter((item) => item.product)
-  const total = cartProducts.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0,
-  )
+  const [cart, setCart] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  function updateCart(nextCart) {
-    saveCart(nextCart)
+  useEffect(() => {
+    // Load cart from localStorage
+    const savedCart = JSON.parse(localStorage.getItem('cart') || '[]')
+    setCart(savedCart)
+    setLoading(false)
+  }, [])
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0,
+    }).format(price)
+  }
+
+  const updateCart = (nextCart) => {
+    localStorage.setItem('cart', JSON.stringify(nextCart))
     setCart(nextCart)
   }
 
-  function changeQuantity(productId, amount) {
-    updateCart(cart.flatMap((item) => {
-      if (item.id !== productId) {
-        return [item]
-      }
-
-      const quantity = item.quantity + amount
-      return quantity > 0 ? [{ ...item, quantity }] : []
-    }))
+  const removeItem = (phoneId) => {
+    const nextCart = cart.filter((item) => item._id !== phoneId)
+    updateCart(nextCart)
   }
 
-  function removeItem(productId) {
-    updateCart(cart.filter((item) => item.id !== productId))
+  const clearCart = () => {
+    if (window.confirm('Are you sure you want to clear your cart?')) {
+      updateCart([])
+    }
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0)
+
+  if (loading) {
+    return (
+      <main className="cart-page">
+        <div className="cart-page-inner">
+          <p>Loading cart...</p>
+        </div>
+      </main>
+    )
   }
 
   return (
     <main className="cart-page">
       <div className="cart-page-inner">
-        <h1>Your cart</h1>
+        <div className="cart-header">
+          <h1>Your Cart</h1>
+          {cart.length > 0 && (
+            <button
+              type="button"
+              className="clear-cart-btn"
+              onClick={clearCart}
+            >
+              Clear Cart
+            </button>
+          )}
+        </div>
 
-        {cartProducts.length === 0 ? (
+        {cart.length === 0 ? (
           <section className="cart-empty">
-            <p>Your cart is empty.</p>
-            <Link to="/">Browse phones</Link>
+            <div className="empty-cart-icon" aria-hidden="true">🛒</div>
+            <h2>Your cart is empty</h2>
+            <p>Start adding phones to your cart to see them here.</p>
+            <Link to="/phones" className="np-button np-button--primary">
+              Browse Phones
+            </Link>
           </section>
         ) : (
           <>
             <div className="cart-items">
-              {cartProducts.map(({ product, quantity }) => (
-                <article className="cart-item" key={product.id}>
+              {cart.map((phone) => (
+                <article className="cart-item" key={phone._id}>
                   <div className="cart-item-image">
-                    <img src={product.image} alt={product.name} />
+                    <div className="cart-image-placeholder">
+                      {phone.brand.charAt(0)}
+                    </div>
                   </div>
-                  <div>
-                    <p className="cart-item-brand">{product.brand}</p>
-                    <h2>{product.name}</h2>
-                    <p className="cart-item-price">{formatPrice(product.price)}</p>
+                  <div className="cart-item-info">
+                    <p className="cart-item-brand">{phone.brand}</p>
+                    <h2 className="cart-item-title">{phone.title}</h2>
+                    <div className="cart-item-specs">
+                      <span>{phone.storage}</span>
+                      <span>•</span>
+                      <span>{phone.condition}</span>
+                    </div>
+                    <p className="cart-item-price">{formatPrice(phone.price)}</p>
                   </div>
                   <div className="cart-item-actions">
-                    <div className="cart-quantity-controls" aria-label={`Quantity for ${product.name}`}>
-                      <button
-                        type="button"
-                        onClick={() => changeQuantity(product.id, -1)}
-                        aria-label={`Decrease ${product.name} quantity`}
-                      >
-                        −
-                      </button>
-                      <span>{quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => changeQuantity(product.id, 1)}
-                        aria-label={`Increase ${product.name} quantity`}
-                      >
-                        +
-                      </button>
-                    </div>
                     <button
-                      className="cart-remove-button"
                       type="button"
-                      onClick={() => removeItem(product.id)}
+                      className="remove-item-btn"
+                      onClick={() => removeItem(phone._id)}
+                      aria-label={`Remove ${phone.title} from cart`}
                     >
                       Remove
                     </button>
@@ -90,27 +109,29 @@ function Cart() {
               ))}
             </div>
 
-            <aside className="cart-summary">
-              <div className="cart-summary-row">
-                <span>Subtotal</span>
-                <strong>{formatPrice(total)}</strong>
+            <div className="cart-summary">
+              <div className="cart-summary-inner">
+                <h2>Order Summary</h2>
+                <div className="cart-summary-row">
+                  <span>Subtotal ({cart.length} {cart.length === 1 ? 'item' : 'items'})</span>
+                  <span>{formatPrice(total)}</span>
+                </div>
+                <div className="cart-summary-row cart-summary-total">
+                  <span>Total</span>
+                  <span>{formatPrice(total)}</span>
+                </div>
+                <button
+                  type="button"
+                  className="np-button np-button--primary checkout-btn"
+                  onClick={() => navigate('/checkout')}
+                >
+                  Proceed to Checkout
+                </button>
+                <Link to="/phones" className="continue-shopping-link">
+                  Continue Shopping
+                </Link>
               </div>
-              <div className="cart-summary-row cart-summary-total">
-                <span>Total</span>
-                <strong>{formatPrice(total)}</strong>
-              </div>
-              <button
-                className="cart-checkout-button"
-                type="button"
-                onClick={() => navigate('/checkout')}
-              >
-                Proceed to checkout
-              </button>
-              <p className="cart-checkout-note">
-                Demo checkout only. No payment will be taken.
-                <Link to="/">Continue shopping</Link>
-              </p>
-            </aside>
+            </div>
           </>
         )}
       </div>

@@ -273,3 +273,23 @@
     transition: none;
   }
 }
+
+.phone-details-extra-actions {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f3f4f6;
+  text-align: center;
+}
+
+.continue-browsing-link {
+  display: inline-block;
+  color: #16a34a;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.continue-browsing-link:hover {
+  color: #0b3d2e;
+}

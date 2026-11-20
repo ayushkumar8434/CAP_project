@@ -1,64 +1,99 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { formatPrice, products, readCart, saveCart } from '../../data/products'
 import './Checkout.css'
 
 function Checkout() {
   const navigate = useNavigate()
-  const cart = readCart()
-  const cartProducts = cart
-    .map((item) => ({
-      ...item,
-      product: products.find((product) => product.id === item.id),
-    }))
-    .filter((item) => item.product)
-  const total = cartProducts.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0,
-  )
+  const [cart, setCart] = useState([])
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    pincode: '',
+  })
+  const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState('')
 
-  function handleSubmit(event) {
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem('cart') || '[]')
+    setCart(savedCart)
+
+    // Auto-fill user info if logged in
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    if (user.name && user.email) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: user.name,
+        email: user.email,
+      }))
+    }
+  }, [])
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0,
+    }).format(price)
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0)
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = (event) => {
     event.preventDefault()
     setFormError('')
+    setLoading(true)
 
-    if (cartProducts.length === 0) {
+    if (cart.length === 0) {
       navigate('/cart', { replace: true })
       return
     }
 
-    const formData = new FormData(event.currentTarget)
-    const customer = Object.fromEntries(formData.entries())
+    // Create demo order
     const demoOrder = {
-      customer,
-      items: cartProducts.map(({ product, quantity }) => ({
-        id: product.id,
-        name: product.name,
-        quantity,
-        price: product.price,
-      })),
+      customer: formData,
+      items: cart,
       total,
-      reference: `DEMO-${Date.now().toString().slice(-8)}`,
+      reference: `NP-${Date.now().toString().slice(-8)}`,
+      date: new Date().toISOString(),
     }
 
     try {
-      saveCart([])
-    } catch {
-      setFormError('Could not finish the demo checkout. Please try again.')
-      return
+      // Clear cart after order
+      localStorage.setItem('cart', JSON.stringify([]))
+      localStorage.setItem('lastOrder', JSON.stringify(demoOrder))
+      
+      setTimeout(() => {
+        navigate('/order-confirmation', { state: { demoOrder } })
+      }, 1000)
+    } catch (error) {
+      setFormError('Could not complete checkout. Please try again.')
+      setLoading(false)
     }
-
-    navigate('/order-confirmation', { state: { demoOrder } })
   }
 
-  if (cartProducts.length === 0) {
+  if (cart.length === 0) {
     return (
       <main className="checkout-page">
-        <section className="checkout-empty">
-          <h1>Your cart is empty</h1>
-          <p>Add a phone to your cart before starting checkout.</p>
-          <Link to="/">Browse phones</Link>
-        </section>
+        <div className="checkout-page-inner">
+          <section className="checkout-empty">
+            <div className="empty-icon" aria-hidden="true">🛒</div>
+            <h1>Your cart is empty</h1>
+            <p>Add phones to your cart before checking out.</p>
+            <Link to="/phones" className="np-button np-button--primary">
+              Browse Phones
+            </Link>
+          </section>
+        </div>
       </main>
     )
   }
@@ -66,95 +101,151 @@ function Checkout() {
   return (
     <main className="checkout-page">
       <div className="checkout-page-inner">
-        <Link className="checkout-back-link" to="/cart">← Back to cart</Link>
+        <Link className="checkout-back-link" to="/cart">
+          ← Back to cart
+        </Link>
+
         <header className="checkout-header">
-          <p className="checkout-eyebrow">DEMO CHECKOUT</p>
-          <h1>Delivery details</h1>
-          <p>Enter where you would like your demo order delivered.</p>
+          <p className="checkout-eyebrow">CHECKOUT</p>
+          <h1>Delivery Details</h1>
+          <p>Enter your delivery information to complete your order.</p>
         </header>
 
         <div className="checkout-layout">
           <form className="checkout-form" onSubmit={handleSubmit}>
-            <label>
-              Full name
-              <input name="fullName" type="text" autoComplete="name" required maxLength={80} />
-            </label>
+            <div className="form-section">
+              <h2>Contact Information</h2>
 
-            <label>
-              Mobile number
-              <input
-                name="phone"
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel-national"
-                pattern="[0-9]{10}"
-                maxLength={10}
-                title="Enter a 10-digit mobile number"
-                required
-              />
-            </label>
-
-            <label>
-              House / street address
-              <textarea
-                name="address"
-                autoComplete="street-address"
-                rows="3"
-                maxLength={200}
-                required
-              />
-            </label>
-
-            <div className="checkout-field-row">
               <label>
-                City
-                <input name="city" type="text" autoComplete="address-level2" maxLength={60} required />
+                Full Name <span className="required">*</span>
+                <input
+                  name="fullName"
+                  type="text"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  required
+                  disabled={loading}
+                />
               </label>
+
               <label>
-                State
-                <input name="state" type="text" autoComplete="address-level1" maxLength={60} required />
+                Email Address <span className="required">*</span>
+                <input
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  disabled={loading}
+                />
+              </label>
+
+              <label>
+                Mobile Number <span className="required">*</span>
+                <input
+                  name="phone"
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="10-digit mobile number"
+                  required
+                  disabled={loading}
+                />
               </label>
             </div>
 
-            <label className="checkout-pincode">
-              PIN code
-              <input
-                name="pincode"
-                type="text"
-                inputMode="numeric"
-                autoComplete="postal-code"
-                pattern="[0-9]{6}"
-                maxLength={6}
-                title="Enter a 6-digit PIN code"
-                required
-              />
-            </label>
+            <div className="form-section">
+              <h2>Delivery Address</h2>
 
-            {formError && <p className="checkout-error" role="alert">{formError}</p>}
+              <label>
+                Address <span className="required">*</span>
+                <textarea
+                  name="address"
+                  rows="3"
+                  value={formData.address}
+                  onChange={handleChange}
+                  placeholder="House/Flat No., Street, Area"
+                  required
+                  disabled={loading}
+                />
+              </label>
 
-            <button className="checkout-submit-button" type="submit">
-              Place demo order
+              <div className="form-row">
+                <label>
+                  City <span className="required">*</span>
+                  <input
+                    name="city"
+                    type="text"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                  />
+                </label>
+
+                <label>
+                  PIN Code <span className="required">*</span>
+                  <input
+                    name="pincode"
+                    type="text"
+                    pattern="[0-9]{6}"
+                    value={formData.pincode}
+                    onChange={handleChange}
+                    placeholder="6 digits"
+                    required
+                    disabled={loading}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {formError && (
+              <div className="form-error" role="alert">
+                {formError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="np-button np-button--primary checkout-submit-btn"
+              disabled={loading}
+            >
+              {loading ? 'Processing...' : `Place Order (${formatPrice(total)})`}
             </button>
-            <p className="checkout-disclaimer">
-              This is a frontend demo only. No real order is submitted and no payment is taken.
-            </p>
           </form>
 
-          <aside className="checkout-order-summary">
-            <h2>Order summary</h2>
-            {cartProducts.map(({ product, quantity }) => (
-              <div className="checkout-item" key={product.id}>
-                <img src={product.image} alt="" />
-                <div>
-                  <strong>{product.name}</strong>
-                  <span>Qty: {quantity}</span>
+          <aside className="checkout-summary">
+            <h2>Order Summary</h2>
+
+            <div className="checkout-items">
+              {cart.map((phone) => (
+                <div key={phone._id} className="checkout-item">
+                  <div className="checkout-item-info">
+                    <p className="checkout-item-brand">{phone.brand}</p>
+                    <p className="checkout-item-title">{phone.title}</p>
+                    <p className="checkout-item-specs">
+                      {phone.storage} • {phone.condition}
+                    </p>
+                  </div>
+                  <p className="checkout-item-price">{formatPrice(phone.price)}</p>
                 </div>
-                <strong>{formatPrice(product.price * quantity)}</strong>
+              ))}
+            </div>
+
+            <div className="checkout-totals">
+              <div className="checkout-total-row">
+                <span>Subtotal ({cart.length} {cart.length === 1 ? 'item' : 'items'})</span>
+                <span>{formatPrice(total)}</span>
               </div>
-            ))}
-            <div className="checkout-total">
-              <span>Total</span>
-              <strong>{formatPrice(total)}</strong>
+              <div className="checkout-total-row">
+                <span>Delivery</span>
+                <span className="free-delivery">FREE</span>
+              </div>
+              <div className="checkout-total-row checkout-grand-total">
+                <span>Total</span>
+                <span>{formatPrice(total)}</span>
+              </div>
             </div>
           </aside>
         </div>

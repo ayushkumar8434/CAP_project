@@ -1,0 +1,220 @@
+.order-confirmation-page {
+  min-height: calc(100vh - 72px);
+  padding: 56px 24px 80px;
+  background: #f7faf8;
+}
+
+.order-confirmation-inner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.confirmation-card {
+  padding: 48px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(11, 61, 46, 0.08);
+}
+
+.success-icon {
+  display: inline-grid;
+  width: 80px;
+  height: 80px;
+  place-items: center;
+  margin-bottom: 24px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #dcfce7, #86efac);
+  color: #15803d;
+  font-size: 48px;
+  font-weight: 700;
+  animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.confirmation-card h1 {
+  margin: 0 0 12px;
+  color: #0b3d2e;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.confirmation-message {
+  margin: 0 0 32px;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.order-reference {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  margin-bottom: 40px;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  background: #f0fdf4;
+}
+
+.reference-label {
+  color: #15803d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reference-number {
+  color: #0b3d2e;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.order-details-section,
+.delivery-info {
+  margin-bottom: 32px;
+  padding: 24px;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+  background: #f9fafb;
+  text-align: left;
+}
+
+.order-details-section h2,
+.delivery-info h2 {
+  margin: 0 0 20px;
+  color: #0b3d2e;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.order-items {
+  margin-bottom: 20px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item-brand {
+  margin: 0 0 4px;
+  color: #6b7280;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.order-item-title {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.order-item-specs {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.order-item-price {
+  margin: 0;
+  color: #0b3d2e;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 2px solid #e5e7eb;
+  color: #0b3d2e;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.order-total-amount {
+  color: #16a34a;
+  font-size: 24px;
+}
+
+.delivery-details p {
+  margin: 0 0 12px;
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.delivery-details strong {
+  color: #0b3d2e;
+  font-weight: 600;
+}
+
+.address-text {
+  margin-left: 0;
+  padding-left: 0;
+  color: #6b7280;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.confirmation-note {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 13px;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .confirmation-card {
+    padding: 32px 24px;
+  }
+
+  .confirmation-card h1 {
+    font-size: 26px;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 36px;
+  }
+
+  .order-reference {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .confirmation-actions {
+    flex-direction: column;
+  }
+
+  .confirmation-actions .np-button {
+    width: 100%;
+  }
+}
