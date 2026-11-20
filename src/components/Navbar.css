@@ -61,6 +61,31 @@
   color: #fff;
 }
 
+.nav-user-name {
+  color: #0b3d2e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-logout-btn {
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #6b7280;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.nav-logout-btn:hover {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #dc2626;
+}
+
 .nav-menu-toggle {
   display: none;
 }

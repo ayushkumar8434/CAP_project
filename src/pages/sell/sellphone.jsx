@@ -1,12 +1,152 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-
-import SelectBrand from './selectbrand'
+import { Link, useNavigate } from 'react-router-dom'
 import './sellphone.css'
 
+const API_BASE_URL = 'http://localhost:5001/api'
+
 function SellPhone() {
-  const [selectedBrand, setSelectedBrand] = useState('')
-  const [step, setStep] = useState(1)
+  const navigate = useNavigate()
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    title: '',
+    brand: '',
+    model: '',
+    price: '',
+    condition: '',
+    storage: '',
+    description: '',
+  })
+
+  // UI state
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
+  const [validationErrors, setValidationErrors] = useState({})
+
+  // Enum values from backend
+  const brands = ['Apple', 'Samsung', 'OnePlus', 'Google', 'Xiaomi', 'Vivo', 'Oppo', 'Nothing', 'Realme', 'Motorola']
+  const conditions = ['Excellent', 'Good', 'Fair', 'Poor']
+  const storageOptions = ['64GB', '128GB', '256GB', '512GB', '1TB']
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    // Clear validation error for this field
+    if (validationErrors[name]) {
+      setValidationErrors((prev) => ({ ...prev, [name]: '' }))
+    }
+  }
+
+  // Validate form
+  const validateForm = () => {
+    const errors = {}
+
+    if (!formData.title.trim()) {
+      errors.title = 'Title is required'
+    }
+
+    if (!formData.brand) {
+      errors.brand = 'Please select a brand'
+    }
+
+    if (!formData.model.trim()) {
+      errors.model = 'Model is required'
+    }
+
+    if (!formData.price || formData.price <= 0) {
+      errors.price = 'Please enter a valid price'
+    }
+
+    if (!formData.condition) {
+      errors.condition = 'Please select a condition'
+    }
+
+    if (!formData.storage) {
+      errors.storage = 'Please select storage'
+    }
+
+    setValidationErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
+  // Submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    setSuccess(false)
+
+    // Validate form
+    if (!validateForm()) {
+      return
+    }
+
+    // Check authentication
+    const token = localStorage.getItem('authToken')
+    if (!token) {
+      setError('You must be logged in to sell a phone. Please login first.')
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/phones`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: formData.title.trim(),
+          brand: formData.brand,
+          model: formData.model.trim(),
+          price: parseFloat(formData.price),
+          condition: formData.condition,
+          storage: formData.storage,
+          description: formData.description.trim() || undefined,
+          images: [], // Empty array as per backend model
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setSuccess(true)
+        // Reset form
+        setFormData({
+          title: '',
+          brand: '',
+          model: '',
+          price: '',
+          condition: '',
+          storage: '',
+          description: '',
+        })
+        
+        // Redirect to phone listing page after 2 seconds
+        setTimeout(() => {
+          navigate('/phones')
+        }, 2000)
+      } else if (response.status === 401) {
+        setError('Your session has expired. Please login again.')
+        localStorage.removeItem('authToken')
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000)
+      } else {
+        setError(data.message || 'Failed to create listing. Please try again.')
+      }
+    } catch (err) {
+      setError('Network error. Please check your connection and try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <main className="sell-page">
@@ -16,36 +156,222 @@ function SellPhone() {
         <header className="sell-page-header">
           <div>
             <p className="sell-eyebrow">SELL YOUR PHONE</p>
-            <h1 className="sell-page-title">Get a fair price for your phone.</h1>
+            <h1 className="sell-page-title">List Your Phone for Sale</h1>
             <p className="sell-page-description">
-              Tell us about your device to get started. It only takes a few steps.
+              Fill in the details below to create your phone listing. Be accurate to attract buyers.
             </p>
           </div>
-          <p className="sell-step-count">STEP {step} OF 6</p>
         </header>
 
-        <div className="sell-progress" aria-label={`Step ${step} of 6`}>
-          <span style={{ width: `${(step / 6) * 100}%` }} />
-        </div>
+        {/* Success Message */}
+        {success && (
+          <div className="sell-message sell-message-success" role="alert">
+            <span className="sell-message-icon">✓</span>
+            <div>
+              <h3>Listing Created Successfully!</h3>
+              <p>Your phone is now listed on NewPhone. Redirecting to browse page...</p>
+            </div>
+          </div>
+        )}
 
-      {step === 1 && (
-        <SelectBrand
-          selectedBrand={selectedBrand}
-          onSelect={setSelectedBrand}
-          onNext={() => setStep(2)}
-        />
-      )}
+        {/* Error Message */}
+        {error && (
+          <div className="sell-message sell-message-error" role="alert">
+            <span className="sell-message-icon">⚠</span>
+            <div>
+              <h3>Error</h3>
+              <p>{error}</p>
+            </div>
+          </div>
+        )}
 
-      {step === 2 && (
-        <section className="sell-next-step">
-          <p className="sell-eyebrow">BRAND SELECTED</p>
-          <h2>{selectedBrand}</h2>
-          <p>Next, we will show the phone models available from this brand.</p>
-          <button className="sell-back-button" type="button" onClick={() => setStep(1)}>
-            Back to brands
-          </button>
-        </section>
-      )}
+        {/* Form */}
+        <form className="sell-form" onSubmit={handleSubmit}>
+          <div className="sell-form-section">
+            <h2 className="sell-form-section-title">Phone Details</h2>
+
+            {/* Title */}
+            <div className="sell-form-field">
+              <label htmlFor="title" className="sell-form-label">
+                Listing Title <span className="sell-form-required">*</span>
+              </label>
+              <input
+                id="title"
+                name="title"
+                type="text"
+                className={`sell-form-input ${validationErrors.title ? 'error' : ''}`}
+                placeholder="e.g., iPhone 15 Pro Max - Excellent Condition"
+                value={formData.title}
+                onChange={handleChange}
+                disabled={loading}
+              />
+              {validationErrors.title && (
+                <span className="sell-form-error">{validationErrors.title}</span>
+              )}
+            </div>
+
+            {/* Brand */}
+            <div className="sell-form-field">
+              <label htmlFor="brand" className="sell-form-label">
+                Brand <span className="sell-form-required">*</span>
+              </label>
+              <select
+                id="brand"
+                name="brand"
+                className={`sell-form-input ${validationErrors.brand ? 'error' : ''}`}
+                value={formData.brand}
+                onChange={handleChange}
+                disabled={loading}
+              >
+                <option value="">Select brand</option>
+                {brands.map((brand) => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+              </select>
+              {validationErrors.brand && (
+                <span className="sell-form-error">{validationErrors.brand}</span>
+              )}
+            </div>
+
+            {/* Model */}
+            <div className="sell-form-field">
+              <label htmlFor="model" className="sell-form-label">
+                Model <span className="sell-form-required">*</span>
+              </label>
+              <input
+                id="model"
+                name="model"
+                type="text"
+                className={`sell-form-input ${validationErrors.model ? 'error' : ''}`}
+                placeholder="e.g., iPhone 15 Pro Max"
+                value={formData.model}
+                onChange={handleChange}
+                disabled={loading}
+              />
+              {validationErrors.model && (
+                <span className="sell-form-error">{validationErrors.model}</span>
+              )}
+            </div>
+
+            {/* Price */}
+            <div className="sell-form-field">
+              <label htmlFor="price" className="sell-form-label">
+                Price (₹) <span className="sell-form-required">*</span>
+              </label>
+              <input
+                id="price"
+                name="price"
+                type="number"
+                min="0"
+                step="100"
+                className={`sell-form-input ${validationErrors.price ? 'error' : ''}`}
+                placeholder="e.g., 75000"
+                value={formData.price}
+                onChange={handleChange}
+                disabled={loading}
+              />
+              {validationErrors.price && (
+                <span className="sell-form-error">{validationErrors.price}</span>
+              )}
+            </div>
+
+            {/* Condition */}
+            <div className="sell-form-field">
+              <label htmlFor="condition" className="sell-form-label">
+                Condition <span className="sell-form-required">*</span>
+              </label>
+              <select
+                id="condition"
+                name="condition"
+                className={`sell-form-input ${validationErrors.condition ? 'error' : ''}`}
+                value={formData.condition}
+                onChange={handleChange}
+                disabled={loading}
+              >
+                <option value="">Select condition</option>
+                {conditions.map((cond) => (
+                  <option key={cond} value={cond}>
+                    {cond}
+                  </option>
+                ))}
+              </select>
+              {validationErrors.condition && (
+                <span className="sell-form-error">{validationErrors.condition}</span>
+              )}
+              <p className="sell-form-hint">
+                Excellent: Like new | Good: Minor wear | Fair: Visible wear | Poor: Heavy wear
+              </p>
+            </div>
+
+            {/* Storage */}
+            <div className="sell-form-field">
+              <label htmlFor="storage" className="sell-form-label">
+                Storage <span className="sell-form-required">*</span>
+              </label>
+              <select
+                id="storage"
+                name="storage"
+                className={`sell-form-input ${validationErrors.storage ? 'error' : ''}`}
+                value={formData.storage}
+                onChange={handleChange}
+                disabled={loading}
+              >
+                <option value="">Select storage</option>
+                {storageOptions.map((storage) => (
+                  <option key={storage} value={storage}>
+                    {storage}
+                  </option>
+                ))}
+              </select>
+              {validationErrors.storage && (
+                <span className="sell-form-error">{validationErrors.storage}</span>
+              )}
+            </div>
+
+            {/* Description */}
+            <div className="sell-form-field">
+              <label htmlFor="description" className="sell-form-label">
+                Description (Optional)
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                className="sell-form-input sell-form-textarea"
+                placeholder="Provide additional details about your phone..."
+                rows="4"
+                value={formData.description}
+                onChange={handleChange}
+                disabled={loading}
+              />
+              <p className="sell-form-hint">
+                Include any relevant information like accessories, warranty, or reason for selling.
+              </p>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="sell-form-footer">
+            <button
+              type="submit"
+              className="sell-submit-button np-button np-button--primary"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="sell-spinner" />
+                  Creating Listing...
+                </>
+              ) : (
+                'Create Listing'
+              )}
+            </button>
+            <p className="sell-form-note">
+              By submitting, you agree to list your phone on NewPhone marketplace.
+            </p>
+          </div>
+        </form>
       </div>
     </main>
   )

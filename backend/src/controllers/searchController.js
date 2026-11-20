@@ -1,13 +1,11 @@
 import Phone from "../models/Phone.js";
+import mongoose from "mongoose";
 
 /**
  * ⚠️ IMPORTANT: This controller uses Phone model from ../models/Phone.js
  * 
- * Member 1 OWNS the Phone model. The current Phone.js is temporary.
- * Before production, ensure this imports Member 1's official Phone model.
- * 
- * Enum values (condition, storage) are currently hardcoded and must match
- * Member 1's final Phone schema.
+ * Member 2 now owns Phone model and CRUD operations.
+ * Enum values (condition, storage) must match the Phone schema.
  */
 
 /**
@@ -255,3 +253,348 @@ export const searchPhones = queryPhones;
  * GET /api/phones
  */
 export const getAllPhones = queryPhones;
+
+/**
+ * Get a single phone by ID
+ * GET /api/phones/:id
+ */
+export const getPhoneById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid phone ID format.",
+      });
+    }
+
+    // Find phone by ID
+    const phone = await Phone.findById(id)
+      .select("-__v")
+      .populate("seller", "name email");
+
+    if (!phone) {
+      return res.status(404).json({
+        success: false,
+        message: "Phone not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      phone,
+    });
+  } catch (error) {
+    console.error("Get phone by ID error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while fetching phone.",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Create a new phone listing
+ * POST /api/phones
+ * Requires authentication
+ */
+export const createPhone = async (req, res) => {
+  try {
+    const {
+      title,
+      brand,
+      model,
+      price,
+      condition,
+      storage,
+      status,
+      description,
+      images,
+    } = req.body;
+
+    // Validate required fields
+    if (!title || !brand || !model || price === undefined || !condition || !storage) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields: title, brand, model, price, condition, and storage are required.",
+      });
+    }
+
+    // Validate price
+    if (typeof price !== "number" || price < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Price must be a non-negative number.",
+      });
+    }
+
+    // Validate condition enum
+    const validConditions = ["Excellent", "Good", "Fair", "Poor"];
+    if (!validConditions.includes(condition)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid condition. Must be one of: ${validConditions.join(", ")}`,
+      });
+    }
+
+    // Validate storage enum
+    const validStorage = ["64GB", "128GB", "256GB", "512GB", "1TB"];
+    if (!validStorage.includes(storage)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid storage. Must be one of: ${validStorage.join(", ")}`,
+      });
+    }
+
+    // Validate status enum if provided
+    if (status) {
+      const validStatus = ["available", "sold", "reserved"];
+      if (!validStatus.includes(status)) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid status. Must be one of: ${validStatus.join(", ")}`,
+        });
+      }
+    }
+
+    // Validate images array if provided
+    if (images && !Array.isArray(images)) {
+      return res.status(400).json({
+        success: false,
+        message: "Images must be an array of strings.",
+      });
+    }
+
+    // Get seller from authenticated user
+    const seller = req.user.id;
+
+    // Create phone listing
+    const phone = await Phone.create({
+      title: title.trim(),
+      brand: brand.trim(),
+      model: model.trim(),
+      price,
+      condition,
+      storage,
+      status: status || "available",
+      description: description ? description.trim() : undefined,
+      images: images || [],
+      seller,
+    });
+
+    // Populate seller information
+    await phone.populate("seller", "name email");
+
+    return res.status(201).json({
+      success: true,
+      message: "Phone listing created successfully.",
+      phone,
+    });
+  } catch (error) {
+    console.error("Create phone error:", error);
+
+    // Handle validation errors
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        success: false,
+        message: "Validation error.",
+        error: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error while creating phone listing.",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Update an existing phone listing
+ * PUT /api/phones/:id
+ * Requires authentication
+ */
+export const updatePhone = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid phone ID format.",
+      });
+    }
+
+    // Find existing phone
+    const phone = await Phone.findById(id);
+
+    if (!phone) {
+      return res.status(404).json({
+        success: false,
+        message: "Phone not found.",
+      });
+    }
+
+    // Check ownership (only the seller can update their listing)
+    if (phone.seller.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to update this phone listing.",
+      });
+    }
+
+    const {
+      title,
+      brand,
+      model,
+      price,
+      condition,
+      storage,
+      status,
+      description,
+      images,
+    } = req.body;
+
+    // Validate updates if provided
+    if (price !== undefined && (typeof price !== "number" || price < 0)) {
+      return res.status(400).json({
+        success: false,
+        message: "Price must be a non-negative number.",
+      });
+    }
+
+    if (condition) {
+      const validConditions = ["Excellent", "Good", "Fair", "Poor"];
+      if (!validConditions.includes(condition)) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid condition. Must be one of: ${validConditions.join(", ")}`,
+        });
+      }
+    }
+
+    if (storage) {
+      const validStorage = ["64GB", "128GB", "256GB", "512GB", "1TB"];
+      if (!validStorage.includes(storage)) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid storage. Must be one of: ${validStorage.join(", ")}`,
+        });
+      }
+    }
+
+    if (status) {
+      const validStatus = ["available", "sold", "reserved"];
+      if (!validStatus.includes(status)) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid status. Must be one of: ${validStatus.join(", ")}`,
+        });
+      }
+    }
+
+    if (images && !Array.isArray(images)) {
+      return res.status(400).json({
+        success: false,
+        message: "Images must be an array of strings.",
+      });
+    }
+
+    // Update fields
+    if (title) phone.title = title.trim();
+    if (brand) phone.brand = brand.trim();
+    if (model) phone.model = model.trim();
+    if (price !== undefined) phone.price = price;
+    if (condition) phone.condition = condition;
+    if (storage) phone.storage = storage;
+    if (status) phone.status = status;
+    if (description !== undefined) phone.description = description ? description.trim() : "";
+    if (images) phone.images = images;
+
+    // Save updated phone
+    await phone.save();
+
+    // Populate seller information
+    await phone.populate("seller", "name email");
+
+    return res.status(200).json({
+      success: true,
+      message: "Phone listing updated successfully.",
+      phone,
+    });
+  } catch (error) {
+    console.error("Update phone error:", error);
+
+    // Handle validation errors
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        success: false,
+        message: "Validation error.",
+        error: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error while updating phone listing.",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Delete a phone listing
+ * DELETE /api/phones/:id
+ * Requires authentication
+ */
+export const deletePhone = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid phone ID format.",
+      });
+    }
+
+    // Find existing phone
+    const phone = await Phone.findById(id);
+
+    if (!phone) {
+      return res.status(404).json({
+        success: false,
+        message: "Phone not found.",
+      });
+    }
+
+    // Check ownership (only the seller can delete their listing)
+    if (phone.seller.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to delete this phone listing.",
+      });
+    }
+
+    // Delete the phone
+    await Phone.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Phone listing deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Delete phone error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while deleting phone listing.",
+      error: error.message,
+    });
+  }
+};

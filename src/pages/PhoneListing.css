@@ -1,0 +1,399 @@
+.phone-listing-page {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+  background: var(--newphone-background);
+}
+
+.phone-listing-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 44px clamp(20px, 4.2vw, 60px) 80px;
+}
+
+/* Page Header */
+.phone-listing-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.phone-listing-eyebrow {
+  margin-bottom: 10px;
+  color: var(--newphone-green);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+.phone-listing-title {
+  margin: 0 0 12px;
+  color: var(--newphone-dark-green);
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+}
+
+.phone-listing-description {
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--newphone-muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Layout */
+.phone-listing-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+}
+
+/* Filters Sidebar */
+.phone-listing-filters {
+  position: sticky;
+  top: 92px;
+  align-self: flex-start;
+  padding: 24px;
+  border: 1px solid var(--newphone-border);
+  border-radius: 12px;
+  background: var(--newphone-white);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--newphone-border);
+}
+
+.filters-header h2 {
+  margin: 0;
+  color: var(--newphone-dark-green);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.filters-clear-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--newphone-green);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.filters-clear-button:hover {
+  background: var(--newphone-light-green);
+}
+
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--newphone-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.filter-search-input,
+.filter-select,
+.filter-price-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--newphone-border);
+  border-radius: 8px;
+  background: var(--newphone-white);
+  color: var(--newphone-text);
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 150ms ease;
+}
+
+.filter-search-input:focus,
+.filter-select:focus,
+.filter-price-input:focus {
+  outline: none;
+  border-color: var(--newphone-green);
+}
+
+.filter-price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-price-input {
+  flex: 1;
+}
+
+.filter-price-inputs span {
+  color: var(--newphone-muted);
+  font-size: 14px;
+}
+
+.filters-apply-button {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* Main Content */
+.phone-listing-content {
+  min-height: 400px;
+}
+
+.results-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--newphone-border);
+}
+
+.results-count {
+  color: var(--newphone-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Phone Grid */
+.phone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* States (Loading, Error, Empty) */
+.phone-listing-state {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  min-height: 400px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--newphone-light-green);
+  border-top-color: var(--newphone-green);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-icon,
+.empty-icon {
+  font-size: 48px;
+}
+
+.phone-listing-state h3 {
+  margin: 0;
+  color: var(--newphone-dark-green);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.phone-listing-state p {
+  max-width: 400px;
+  color: var(--newphone-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.retry-button,
+.clear-button {
+  margin-top: 8px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.pagination-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1px solid var(--newphone-border);
+  border-radius: 8px;
+  background: var(--newphone-white);
+  color: var(--newphone-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  border-color: var(--newphone-green);
+  background: var(--newphone-light-green);
+  color: var(--newphone-green);
+}
+
+.pagination-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pagination-page {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--newphone-border);
+  border-radius: 8px;
+  background: var(--newphone-white);
+  color: var(--newphone-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.pagination-page:hover {
+  border-color: var(--newphone-green);
+  background: var(--newphone-light-green);
+  color: var(--newphone-green);
+}
+
+.pagination-page.active {
+  border-color: var(--newphone-green);
+  background: var(--newphone-green);
+  color: var(--newphone-white);
+}
+
+.pagination-ellipsis {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  color: var(--newphone-muted);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .phone-listing-layout {
+    grid-template-columns: 240px 1fr;
+    gap: 32px;
+  }
+
+  .phone-listing-filters {
+    padding: 20px;
+  }
+
+  .phone-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .phone-listing-container {
+    padding-top: 32px;
+    padding-bottom: 60px;
+  }
+
+  .phone-listing-header {
+    margin-bottom: 32px;
+  }
+
+  .phone-listing-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .phone-listing-filters {
+    position: static;
+    max-height: none;
+  }
+
+  .phone-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pagination-button {
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+
+  .pagination-page {
+    width: 40px;
+    height: 40px;
+    font-size: 13px;
+  }
+
+  .pagination-ellipsis {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .phone-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination-pages {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: none;
+  }
+
+  .pagination-button,
+  .pagination-page,
+  .filter-search-input,
+  .filter-select,
+  .filter-price-input {
+    transition: none;
+  }
+}
